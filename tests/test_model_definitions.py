@@ -1,7 +1,7 @@
 import os
 from unittest import TestCase
 
-from django_erd.contrib.dialects import Dialect
+from django_erd_generator.contrib.dialects import Dialect
 from .utils import ModelArray
 
 

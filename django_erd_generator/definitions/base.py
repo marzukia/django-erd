@@ -1,4 +1,4 @@
-from django_erd.contrib.dialects import Dialect
+from django_erd_generator.contrib.dialects import Dialect
 
 
 class BaseArray(list):

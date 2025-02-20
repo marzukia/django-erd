@@ -1,12 +1,12 @@
 from typing import Union
-from django_erd.contrib.dialects import (
+from django_erd_generator.contrib.dialects import (
     MODEL_PATTERN_LOOKUP,
     OUTPUT_PATTERN_LOOKUP,
     Dialect,
 )
-from django_erd.definitions.base import BaseArray, BaseDefinition
-from django_erd.definitions.fields import FieldArray, FieldDefinition
-from django_erd.definitions.relationships import RelationshipArray
+from django_erd_generator.definitions.base import BaseArray, BaseDefinition
+from django_erd_generator.definitions.fields import FieldArray, FieldDefinition
+from django_erd_generator.definitions.relationships import RelationshipArray
 from django.db import models
 import django.apps as d
 

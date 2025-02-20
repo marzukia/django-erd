@@ -1,9 +1,13 @@
 import re
 from django.db import models, connection
 
-from django_erd.contrib.dialects import FIELD_PATTERN_LOOKUP, PK_PATTERN_LOOKUP, Dialect
-from django_erd.definitions.base import BaseArray, BaseDefinition
-from django_erd.definitions.relationships import Relationship
+from django_erd_generator.contrib.dialects import (
+    FIELD_PATTERN_LOOKUP,
+    PK_PATTERN_LOOKUP,
+    Dialect,
+)
+from django_erd_generator.definitions.base import BaseArray, BaseDefinition
+from django_erd_generator.definitions.relationships import Relationship
 
 
 class FieldDefinition(BaseDefinition):

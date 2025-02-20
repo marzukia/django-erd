@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from django_erd.contrib.dialects import Dialect
-from django_erd.definitions.fields import FieldDefinition
+from django_erd_generator.contrib.dialects import Dialect
+from django_erd_generator.definitions.fields import FieldDefinition
 from .models import Customer
 from .utils import ModelArray
 

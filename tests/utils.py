@@ -1,4 +1,4 @@
-from django_erd.definitions.models import ModelArray, ModelDefinition
+from django_erd_generator.definitions.models import ModelArray, ModelDefinition
 from .models import Customer, Order, Product, Region
 
 

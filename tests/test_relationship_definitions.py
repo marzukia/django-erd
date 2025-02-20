@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from django_erd.contrib.dialects import Dialect
-from django_erd.definitions.fields import Relationship
+from django_erd_generator.contrib.dialects import Dialect
+from django_erd_generator.definitions.fields import Relationship
 from .models import Order
 from .utils import ModelArray
 

@@ -48,7 +48,7 @@ def pytest_configure(config):
             "django.contrib.sessions",
             "django.contrib.sites",
             "django.contrib.staticfiles",
-            "django_erd",
+            "django_erd_generator",
         ),
         PASSWORD_HASHERS=("django.contrib.auth.hashers.MD5PasswordHasher",),
     )

@@ -1,6 +1,6 @@
 import csv
-from django_erd.contrib.dialects import Dialect
-from django_erd.definitions.models import ModelArray
+from django_erd_generator.contrib.dialects import Dialect
+from django_erd_generator.definitions.models import ModelArray
 
 erd = ModelArray.get_models(["propertyflow"], dialect=Dialect.PLANTUML)
 
