@@ -1,4 +1,4 @@
-![logo](./docs/img/logo.png)
+![logo](https://github.com/marzukia/django-erd/blob/main/docs/img/logo.png)
 
 # Django ERD Generator
 
@@ -82,7 +82,6 @@ Customer {
   integer id pk
   text first_name
   text last_name
-  date date_of_birth
 }
 Product {
   integer id pk
@@ -90,28 +89,28 @@ Product {
   text product_name
   text product_code
   integer quantity
-  numeric price
+  decimal price
 }
 Order {
   integer id pk
   integer customer_id
   integer product_id
   integer quantity
-  numeric order_total
+  decimal order_total
 }
 Region {
   integer id pk
   text name
   text label
 }
-Region }|--|{ Product: ""
-Customer }|--|| Order: ""
-Product }|--|| Order: ""
+Product }|--|{ Region: ""
+Order }|--|| Customer: ""
+Order }|--|| Product: ""
 ```
 
 #### Rendered Example
 
-![mermaid.js render example](./docs/img/examples/mermaid.png "Mermaid.js render example")
+![mermaid.js render example](https://github.com/marzukia/django-erd/blob/main/docs/img/examples/mermaid.png "Mermaid.js render example")
 
 
 ### PlantUML
@@ -125,7 +124,6 @@ entity Customer {
   *id: integer
   first_name: text
   last_name: text
-  date_of_birth: date
 }
 entity Product {
   *id: integer
@@ -133,30 +131,30 @@ entity Product {
   product_name: text
   product_code: text
   quantity: integer
-  price: numeric
+  price: decimal
 }
 entity Order {
   *id: integer
   customer_id: integer
   product_id: integer
   quantity: integer
-  order_total: numeric
+  order_total: decimal
 }
 entity Region {
   *id: integer
   name: text
   label: text
 }
-Region }|--|{ Product
-Customer }|--|| Order
-Product }|--|| Order
+Product }|--|{ Region
+Order }|--|| Customer
+Order }|--|| Product
 
 @enduml
 ```
 
 #### Rendered Example
 
-![PlantUML render example](./docs/img/examples/plantuml.png "PlantUML render example")
+![PlantUML render example](https://github.com/marzukia/django-erd/blob/main/docs/img/examples/plantuml.png "PlantUML render example")
 
 ### dbdiagram.io
 
@@ -167,7 +165,6 @@ Table Customer {
   id "integer" [primary key]
   first_name "text"
   last_name "text"
-  date_of_birth "date"
 }
 Table Product {
   id "integer" [primary key]
@@ -175,28 +172,28 @@ Table Product {
   product_name "text"
   product_code "text"
   quantity "integer"
-  price "numeric"
+  price "decimal"
 }
 Table Order {
   id "integer" [primary key]
   customer_id "integer"
   product_id "integer"
   quantity "integer"
-  order_total "numeric"
+  order_total "decimal"
 }
 Table Region {
   id "integer" [primary key]
   name "text"
   label "text"
 }
-Ref: Region.id <> Product.id
-Ref: Customer.id > Order.customer_id
-Ref: Product.id > Order.product_id
+Ref: Product.regions <> Region.id
+Ref: Order.customer_id > Customer.id
+Ref: Order.product_id > Product.id
 ```
 
 #### Rendered Example
 
-![dbdiagram render example](./docs/img/examples/dbdiagram.png "dbdiagram.io render example")
+![dbdiagram render example](https://github.com/marzukia/django-erd/blob/main/docs/img/examples/dbdiagram.png "dbdiagram.io render example")
 
 ### **Supported Versions**
 
