@@ -1,4 +1,4 @@
-![logo](https://github.com/marzukia/django-erd/blob/main/docs/img/logo.png)
+![logo](https://github.com/marzukia/django-erd/blob/main/docs/img/logo.png?raw=true)
 
 # Django ERD Generator
 
@@ -110,7 +110,7 @@ Order }|--|| Product: ""
 
 #### Rendered Example
 
-![mermaid.js render example](https://github.com/marzukia/django-erd/blob/main/docs/img/examples/mermaid.png "Mermaid.js render example")
+![mermaid.js render example](https://github.com/marzukia/django-erd/blob/main/docs/img/examples/mermaid.png?raw=true "Mermaid.js render example")
 
 
 ### PlantUML
@@ -154,7 +154,7 @@ Order }|--|| Product
 
 #### Rendered Example
 
-![PlantUML render example](https://github.com/marzukia/django-erd/blob/main/docs/img/examples/plantuml.png "PlantUML render example")
+![PlantUML render example](https://github.com/marzukia/django-erd/blob/main/docs/img/examples/plantuml.png?raw=true "PlantUML render example")
 
 ### dbdiagram.io
 
@@ -193,7 +193,7 @@ Ref: Order.product_id > Product.id
 
 #### Rendered Example
 
-![dbdiagram render example](https://github.com/marzukia/django-erd/blob/main/docs/img/examples/dbdiagram.png "dbdiagram.io render example")
+![dbdiagram render example](https://github.com/marzukia/django-erd/blob/main/docs/img/examples/dbdiagram.png?raw=true "dbdiagram.io render example")
 
 ### **Supported Versions**
 

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django_erd_generator"
-version = "0.1.1"
+version = "0.1.12"
 description = "Django ERD Generator is a CLI tool for generating Entity-Relationship Diagrams (ERDs) from Django models. It supports multiple output formats, allowing easy database visualization in tools like Mermaid.js, PlantUML, and dbdiagram.io. The generator extracts model definitions, fields, and relationships, converting them into structured representations for diagramming."
 authors = ["Andryo Marzuki <andryo@mrzk.io>"]
 readme = "README.md"
