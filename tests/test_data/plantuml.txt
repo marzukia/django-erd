@@ -1,0 +1,32 @@
+@startuml
+
+entity Customer {
+  *id: integer
+  first_name: text
+  last_name: text
+}
+entity Product {
+  *id: integer
+  sku: text
+  product_name: text
+  product_code: text
+  quantity: integer
+  price: decimal
+}
+entity Order {
+  *id: integer
+  customer_id: integer
+  product_id: integer
+  quantity: integer
+  order_total: decimal
+}
+entity Region {
+  *id: integer
+  name: text
+  label: text
+}
+Product }|--|{ Region
+Order }|--|| Customer
+Order }|--|| Product
+
+@enduml

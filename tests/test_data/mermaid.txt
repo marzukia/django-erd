@@ -1,0 +1,29 @@
+erDiagram
+Customer {
+  integer id pk
+  text first_name 
+  text last_name 
+}
+Product {
+  integer id pk
+  text sku 
+  text product_name 
+  text product_code 
+  integer quantity 
+  decimal price 
+}
+Order {
+  integer id pk
+  integer customer_id 
+  integer product_id 
+  integer quantity 
+  decimal order_total 
+}
+Region {
+  integer id pk
+  text name 
+  text label 
+}
+Product }|--|{ Region: ""
+Order }|--|| Customer: ""
+Order }|--|| Product: ""
