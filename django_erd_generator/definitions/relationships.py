@@ -27,7 +27,8 @@ class Relationship(BaseDefinition):
             self.to_model = field.model.__name__
             self.to_field = field.attname if hasattr(field, "attname") else field.name
             if self.rel in ["many_to_many", "one_to_one"]:
-                self.from_field = field.model._meta.pk.attname
+                self.to_field = field.model._meta.pk.attname
+                self.from_field = field.related_model._meta.pk.attname
         else:
             self.to_model = to_model
             self.to_field = to_field

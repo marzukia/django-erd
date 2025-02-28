@@ -23,6 +23,6 @@ Table Region {
   name "text" 
   label "text" 
 }
-Ref: Product.regions <> Region.id
+Ref: Product.id <> Region.id
 Ref: Order.customer_id > Customer.id
 Ref: Order.product_id > Product.id
