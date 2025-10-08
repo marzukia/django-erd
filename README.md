@@ -1,11 +1,29 @@
 ![logo](https://github.com/marzukia/django-erd/blob/main/docs/img/logo.png?raw=true)
 
-Django ERD Generator is a command-line tool designed to generate Entity-Relationship Diagrams (ERDs) from Django models. It supports multiple output formats, making it easy to visualise database relationships in different diagramming tools. The generator extracts model definitions, fields, and relationships, converting them into structured representations suitable for use with Mermaid.js, PlantUML, and dbdiagram.io. This tool is useful for understanding database structures, documenting data models, and sharing visual representations with team members.
+Django ERD Generator is a comprehensive command-line tool designed to generate Entity-Relationship Diagrams (ERDs) and data dictionaries from Django models. It supports multiple output formats, making it easy to visualise database relationships in different diagramming tools and create detailed documentation. The generator extracts model definitions, fields, and relationships, converting them into structured representations suitable for use with Mermaid.js, PlantUML, and dbdiagram.io, as well as comprehensive Markdown documentation.
 
-Supported dialects:
+**Key Features:**
+* **ERD Generation**: Create visual database diagrams in multiple formats
+* **Data Dictionary**: Generate comprehensive model documentation in Markdown
+* **Multiple Dialects**: Support for Mermaid.js, PlantUML, and dbdiagram.io
+* **Flexible Output**: Console output or file export
+* **App Filtering**: Include specific Django apps or all apps
+* **Rich Documentation**: Field types, constraints, relationships, and help text
+
+**Supported ERD Dialects:**
 * Mermaid.js
 * PlantUML
 * dbdiagram.io
+
+## Feature Overview
+
+| Feature | ERD Generation | Data Dictionary |
+|---------|----------------|-----------------|
+| **Output Format** | Visual diagrams (Mermaid, PlantUML, dbdiagram) | Structured Markdown documentation |
+| **Primary Use** | Visual database schema representation | Comprehensive model documentation |
+| **Content** | Models, fields, relationships | Detailed field properties, constraints, help text |
+| **Integration** | Diagramming tools, documentation sites | Documentation sites, wikis, repositories |
+| **Best For** | Schema visualization, design reviews | Technical documentation, API docs, onboarding |
 
 ## Quickstart
 
@@ -195,7 +213,16 @@ Ref: Order.product_id > Product.id
 
 ## Data Dictionary Generation
 
-The Data Dictionary feature allows you to generate comprehensive documentation of your Django models in Markdown format. This is particularly useful for maintaining up-to-date documentation of your database schema and sharing it with team members.
+The Data Dictionary feature generates comprehensive, structured documentation of your Django models in Markdown format. This feature is perfect for creating technical documentation, onboarding new team members, and maintaining up-to-date schema documentation that stays in sync with your codebase.
+
+### Key Benefits
+
+- **Auto-Generated Documentation**: Automatically extracts model information without manual maintenance
+- **Structured Format**: Organized by Django app with consistent formatting
+- **Rich Metadata**: Includes field types, constraints, relationships, help text, and more
+- **Navigation-Friendly**: Table of contents with anchor links for easy browsing
+- **Version Tracking**: Includes git commit hash for version correlation
+- **Comprehensive Coverage**: Documents all field properties including nullable, unique, choices, etc.
 
 ### Usage
 
@@ -205,26 +232,78 @@ python manage.py generate_data_dictionary [options]
 
 ### Options
 
-- `-a, --apps`: Specify which apps to include in the data dictionary. Multiple apps should be comma-separated (e.g., "shopping,polls"). If not specified, all apps will be included.
-- `-o, --output`: The path where the output Markdown file should be saved. If not specified, the output will be printed to stdout.
+| Option | Description |
+|--------|-------------|
+| `-a, --apps` | Specify which Django apps to include. Use comma-separated values (e.g., "shopping,polls"). If omitted, all apps are included. |
+| `-o, --output` | Define the output file path for the Markdown file. If omitted, content is printed to stdout. |
 
 ### Examples
 
-Generate data dictionary for all apps and print to console:
+**Generate documentation for all apps and display in console:**
 ```bash
 python manage.py generate_data_dictionary
 ```
 
-Generate data dictionary for specific apps and save to file:
+**Generate documentation for specific apps:**
 ```bash
-python manage.py generate_data_dictionary --apps auth,myapp --output docs/data_dictionary.md
+python manage.py generate_data_dictionary --apps auth,contenttypes,myapp
 ```
 
-The generated data dictionary includes:
-- Table of Contents with jump links to each section
-- Organized documentation by app
-- Detailed model information including fields and relationships
-- Field types, constraints, and help text
+**Save documentation to a file:**
+```bash
+python manage.py generate_data_dictionary --output docs/schema_documentation.md
+```
+
+**Combine app filtering and file output:**
+```bash
+python manage.py generate_data_dictionary --apps myapp,billing --output docs/core_models.md
+```
+
+### Generated Documentation Structure
+
+The data dictionary includes:
+
+1. **Header Section**
+   - Project name (automatically detected from Django settings)
+   - Git commit hash for version tracking
+   - Generation timestamp
+
+2. **Table of Contents**
+   - Hierarchical navigation with clickable anchor links
+   - Organized by app, then by model
+   - Quick access to any model documentation
+
+3. **Model Documentation**
+   - **Model signature**: Shows the model constructor with all fields
+   - **Docstring**: Model-level documentation from your code
+   - **Field table**: Comprehensive field information including:
+     - Primary key indicators
+     - Field names and data types
+     - Related model links (clickable within the document)
+     - Field descriptions and help text
+     - Constraint information (nullable, unique, choices)
+     - Database-specific properties (max_length, db_index)
+
+### Field Information Captured
+
+For each model field, the data dictionary captures:
+
+- **Field Type**: The Django field type (CharField, IntegerField, etc.)
+- **Data Type**: The underlying database data type
+- **Primary Key**: Whether the field is a primary key
+- **Related Models**: Links to related models (ForeignKey, ManyToMany)
+- **Constraints**: Nullable, unique, choices
+- **Validation**: Max length, database indexing
+- **Documentation**: Help text and field descriptions
+
+### Integration with Documentation Workflows
+
+The data dictionary integrates well with various documentation workflows:
+
+- **CI/CD Integration**: Generate updated documentation on each deployment
+- **Documentation Sites**: Include generated files in Sphinx, MkDocs, or similar tools
+- **Version Control**: Track documentation changes alongside code changes
+- **Team Collaboration**: Share comprehensive schema information with stakeholders
 
 ### Rendered Example
 
@@ -296,6 +375,92 @@ Commit `d3e45c95a2895dc3fe6c1c3629a5753d0e0a58d2`
 |  | name | `text` |  |  |  |  |  |  |  |
 |  | label | `text` |  |  |  |  |  |  |  |
 
+```
+
+## Use Cases & Workflows
+
+### Documentation Automation
+**Problem**: Keeping database documentation up-to-date is time-consuming and error-prone.
+**Solution**: Integrate ERD and data dictionary generation into your CI/CD pipeline.
+
+```yaml
+# Example GitHub Actions workflow
+- name: Generate Documentation
+  run: |
+    python manage.py generate_erd --output docs/database_schema.mermaid
+    python manage.py generate_data_dictionary --output docs/data_dictionary.md
+```
+
+### Team Onboarding
+**Problem**: New developers need to understand complex database relationships quickly.
+**Solution**: Generate visual ERDs and comprehensive data dictionaries as part of onboarding materials.
+
+```bash
+# Generate complete documentation package
+python manage.py generate_erd -d mermaid --output onboarding/schema_diagram.mermaid
+python manage.py generate_erd -d plantuml --output onboarding/schema_diagram.puml
+python manage.py generate_data_dictionary --output onboarding/model_reference.md
+```
+
+### Database Design Reviews
+**Problem**: Reviewing database changes requires understanding current and proposed schemas.
+**Solution**: Generate ERDs before and after changes for visual comparison.
+
+```bash
+# Before changes
+python manage.py generate_erd -d dbdiagram --output reviews/before_changes.dbml
+
+# After implementing changes
+python manage.py generate_erd -d dbdiagram --output reviews/after_changes.dbml
+```
+
+### API Documentation Enhancement
+**Problem**: API documentation lacks detailed schema information.
+**Solution**: Include generated data dictionaries in API documentation.
+
+```bash
+# Generate focused documentation for API-related models
+python manage.py generate_data_dictionary --apps api,core,billing --output api_docs/models.md
+```
+
+### Stakeholder Communication
+**Problem**: Non-technical stakeholders need to understand data structures.
+**Solution**: Use visual ERDs to communicate database design decisions.
+
+```bash
+# Generate clean visual representation
+python manage.py generate_erd -d mermaid --apps core --output stakeholder_review.mermaid
+```
+
+## Best Practices
+
+### 1. **Selective App Documentation**
+Don't overwhelm documentation with unnecessary apps:
+```bash
+# Focus on business-critical apps
+python manage.py generate_data_dictionary --apps core,billing,inventory
+```
+
+### 2. **Regular Updates**
+Keep documentation current with automated generation:
+```bash
+# Add to your deployment script
+python manage.py generate_data_dictionary --output docs/schema.md
+git add docs/schema.md
+```
+
+### 3. **Format Selection**
+Choose the right ERD format for your audience:
+- **Mermaid**: Great for GitHub/GitLab integration
+- **PlantUML**: Best for detailed technical documentation
+- **dbdiagram.io**: Perfect for visual database design discussions
+
+### 4. **Version Control Integration**
+Track documentation changes alongside code:
+```bash
+# Generate and commit documentation updates
+python manage.py generate_data_dictionary --output SCHEMA.md
+git add SCHEMA.md && git commit -m "Update schema documentation"
 ```
 
 ## **Supported Versions**

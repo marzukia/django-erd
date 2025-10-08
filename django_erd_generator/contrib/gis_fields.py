@@ -1,6 +1,21 @@
 """
-GIS field type mappings for different dialects.
-Maps Django GIS field types to appropriate representations in ERD dialects.
+GIS field type mappings for different ERD dialects.
+
+This module provides support for Django's GeoDjango (GIS) fields in ERD generation.
+It maps Django GIS field types to appropriate representations in different ERD
+dialects, ensuring that spatial/geographic fields are properly represented in
+database diagrams.
+
+Supported GIS Fields:
+- PointField: Geographic points (latitude/longitude)
+- LineStringField: Geographic lines/paths
+- PolygonField: Geographic areas/regions
+- MultiPointField: Collections of points
+- MultiLineStringField: Collections of lines
+- MultiPolygonField: Collections of polygons
+- GeometryCollectionField: Mixed geometry collections
+- GeometryField: Generic geometry field
+- RasterField: Raster/image data
 """
 
 from django_erd_generator.contrib.dialects import Dialect
@@ -55,7 +70,24 @@ GIS_FIELD_TYPE_MAPPING = {
 
 
 def is_gis_field(field_class_name: str) -> bool:
-    """Check if a field is a GIS field based on its class name."""
+    """
+    Check if a field is a GIS field based on its class name.
+
+    Determines whether a Django field is a geographic/spatial field type
+    by checking its class name against known GIS field types.
+
+    Args:
+        field_class_name: The name of the field class (e.g., 'PointField')
+
+    Returns:
+        True if the field is a GIS field, False otherwise
+
+    Example:
+        >>> is_gis_field('PointField')
+        True
+        >>> is_gis_field('CharField')
+        False
+    """
     gis_field_names = {
         "PointField",
         "LineStringField",
@@ -71,7 +103,29 @@ def is_gis_field(field_class_name: str) -> bool:
 
 
 def get_gis_field_type(field_class_name: str, dialect: Dialect) -> str:
-    """Get the appropriate GIS field type for the given dialect."""
+    """
+    Get the appropriate GIS field type representation for the given dialect.
+
+    Maps a Django GIS field class name to its appropriate representation
+    in the specified ERD dialect. Different dialects have different
+    conventions for representing spatial data types.
+
+    Args:
+        field_class_name: The name of the GIS field class
+        dialect: The ERD dialect for output formatting
+
+    Returns:
+        String representation of the field type in the dialect, or None if
+        not a GIS field
+
+    Example:
+        >>> get_gis_field_type('PointField', Dialect.MERMAID)
+        'geometry_point'
+        >>> get_gis_field_type('PointField', Dialect.PLANTUML)
+        'POINT'
+        >>> get_gis_field_type('CharField', Dialect.MERMAID)
+        None
+    """
     if not is_gis_field(field_class_name):
         return None
 
