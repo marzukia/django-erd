@@ -5,3 +5,4 @@ docs/_build/
 .pytest_cache/
 main.py
 docs/_output/
+.venv/

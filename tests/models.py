@@ -5,7 +5,7 @@ class TestModel(models.Model):
     id = models.AutoField(primary_key=True)
 
     class Meta:
-        app_label = "test"
+        app_label = "tests"
         abstract = True
 
 

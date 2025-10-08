@@ -49,7 +49,7 @@ class FieldArrayTestCase(TestCase):
         }
 
         for dialect, expected in dialects.items():
-            model = ModelArray.get_models("test", dialect=dialect)[0]
+            model = ModelArray.get_models("tests", dialect=dialect)[0]
             fields = model.fields.to_string()
             field_arr = [i.strip() for i in fields.split("\n")]
             self.assertEqual(" ".join(field_arr), " ".join(expected))

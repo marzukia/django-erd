@@ -7,7 +7,7 @@ from .utils import ModelArray
 
 class ModelDefinitionTestCase(TestCase):
     def setUp(self):
-        self.models = ModelArray.get_models("test")
+        self.models = ModelArray.get_models("tests")
 
     def test_field_names(self):
         expected_fields = [

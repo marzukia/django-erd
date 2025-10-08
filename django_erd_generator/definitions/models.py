@@ -80,8 +80,8 @@ class ModelArray(BaseArray):
         models.sort(key=lambda x: (len(x.relationships), x.name))
         for model in models:
             for relationship in model.relationships:
-                if not relationship.to_string() in valid:
-                    if not relationship.inverse().to_string() in valid:
+                if relationship.to_string() not in valid:
+                    if relationship.inverse().to_string() not in valid:
                         valid.append(relationship.to_string())
                         unique.append(relationship)
         return unique

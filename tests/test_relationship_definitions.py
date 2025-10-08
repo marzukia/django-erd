@@ -37,6 +37,6 @@ class RelationshipArrayTestCase(TestCase):
         }
 
         for dialect, expected in dialects.items():
-            model = ModelArray.get_models("test", dialect=dialect)[2]
+            model = ModelArray.get_models("tests", dialect=dialect)[2]
             relationships = model.relationships.to_string()
             self.assertEqual(relationships, expected)
