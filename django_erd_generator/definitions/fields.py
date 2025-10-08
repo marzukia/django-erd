@@ -6,6 +6,10 @@ from django_erd_generator.contrib.dialects import (
     PK_PATTERN_LOOKUP,
     Dialect,
 )
+from django_erd_generator.contrib.gis_fields import (
+    is_gis_field,
+    get_gis_field_type,
+)
 from django_erd_generator.definitions.base import BaseArray, BaseDefinition
 from django_erd_generator.definitions.relationships import Relationship
 
@@ -33,6 +37,17 @@ class FieldDefinition(BaseDefinition):
 
     @classmethod
     def get_data_type(self, field: models.Field, dialect: Dialect) -> str:
+        # Check if it's a GIS field first
+        field_class_name = field.__class__.__name__
+        if is_gis_field(field_class_name):
+            gis_type = get_gis_field_type(field_class_name, dialect)
+            if gis_type:
+                return {
+                    "data_type": gis_type,
+                    "args": None,
+                }
+
+        # Handle regular fields
         pattern = r"(\w+)\(([^)]+)\)"
         data_type = field.cast_db_type(connection)
         if data_type:
