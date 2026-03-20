@@ -25,8 +25,8 @@ entity Region {
   name: text
   label: text
 }
-Product }|--|{ Region
-Order }|--|| Customer
-Order }|--|| Product
+Product }|--|{ Region : " "
+Order }|--|| Customer : " "
+Order }|--|| Product : " "
 
 @enduml

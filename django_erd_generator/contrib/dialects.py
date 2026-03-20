@@ -63,7 +63,7 @@ REL_PATTERN_LOOKUP = {
     Dialect.MERMAID: '{to_model} {rel_code} {from_model}: ""',
     Dialect.MERMAID_FLOW: "{to_model} {rel_code} {from_model}",
     Dialect.DBDIAGRAM: "Ref: {to_model}.{to_field} {rel_code} {from_model}.{from_field}",
-    Dialect.PLANTUML: "{to_model} {rel_code} {from_model}",
+    Dialect.PLANTUML: '{to_model} {rel_code} {from_model} : " "',
 }
 
 # Field formatting patterns for different dialects

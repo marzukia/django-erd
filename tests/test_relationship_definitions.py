@@ -1,8 +1,8 @@
 from unittest import TestCase
 
 from django_erd_generator.contrib.dialects import Dialect
-from django_erd_generator.definitions.fields import Relationship
-from .models import Order
+from django_erd_generator.definitions.fields import FieldDefinition, Relationship
+from .models import Order, TaggedItem
 from .utils import ModelArray
 
 
@@ -19,7 +19,7 @@ class RelationshipTestCase(TestCase):
 
         dialects = {
             Dialect.MERMAID: 'Order ||--|{ Customer: ""',
-            Dialect.PLANTUML: "Order ||--|{ Customer",
+            Dialect.PLANTUML: 'Order ||--|{ Customer : " "',
             Dialect.DBDIAGRAM: "Ref: Order.customer_id < Customer.id",
         }
 
@@ -28,11 +28,19 @@ class RelationshipTestCase(TestCase):
             self.assertEqual(expected, rel_definition.to_string().strip())
 
 
+class GenericForeignKeyTestCase(TestCase):
+    def test_generic_foreign_key_does_not_crash(self):
+        """GenericForeignKey fields (related_model=None) should be skipped, not crash."""
+        content_object_field = TaggedItem._meta.get_field("content_object")
+        result = FieldDefinition.get_relationship(content_object_field)
+        self.assertIsNone(result)
+
+
 class RelationshipArrayTestCase(TestCase):
     def test_relationship_array_dialect_render(self):
         dialects = {
             Dialect.MERMAID: 'Order }|--|| Customer: ""\nOrder }|--|| Product: ""',
-            Dialect.PLANTUML: "Order }|--|| Customer\nOrder }|--|| Product",
+            Dialect.PLANTUML: 'Order }|--|| Customer : " "\nOrder }|--|| Product : " "',
             Dialect.DBDIAGRAM: "Ref: Order.customer_id > Customer.id\nRef: Order.product_id > Product.id",
         }
 

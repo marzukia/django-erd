@@ -79,6 +79,8 @@ class FieldDefinition(BaseDefinition):
         """
         rel_codes = ["one_to_many", "one_to_one", "many_to_one", "many_to_many"]
         if hasattr(field, "is_relation"):
+            if getattr(field, "related_model", None) is None:
+                return None
             for rel_code in rel_codes:
                 if getattr(field, rel_code, None):
                     return Relationship(field, rel_code, dialect=dialect)
