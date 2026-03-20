@@ -25,6 +25,21 @@ Django ERD Generator is a comprehensive command-line tool designed to generate E
 | **Integration** | Diagramming tools, documentation sites | Documentation sites, wikis, repositories |
 | **Best For** | Schema visualization, design reviews | Technical documentation, API docs, onboarding |
 
+## Installation
+
+Install using `pip`...
+
+    pip install django-erd-generator
+
+Add `'django_erd_generator'` to your `INSTALLED_APPS` setting.
+
+```python
+INSTALLED_APPS = [
+    # ...
+    "django_erd_generator",
+]
+```
+
 ## Quickstart
 
 To generate an Entity-Relationship Diagram (ERD) in the desired syntax, use the `generate_erd` command:
