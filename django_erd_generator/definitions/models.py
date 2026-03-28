@@ -7,7 +7,9 @@ fields, and relationships to generate structured representations suitable for
 different diagramming tools.
 """
 
-from typing import Union
+import django.apps as d
+from django.db import models
+
 from django_erd_generator.contrib.dialects import (
     MODEL_PATTERN_LOOKUP,
     OUTPUT_PATTERN_LOOKUP,
@@ -16,8 +18,6 @@ from django_erd_generator.contrib.dialects import (
 from django_erd_generator.definitions.base import BaseArray, BaseDefinition
 from django_erd_generator.definitions.fields import FieldArray, FieldDefinition
 from django_erd_generator.definitions.relationships import RelationshipArray
-from django.db import models
-import django.apps as d
 
 
 class ModelDefinition(BaseDefinition):
@@ -52,6 +52,7 @@ class ModelDefinition(BaseDefinition):
         """
         self.django_model = model
         self.dialect = dialect
+        # Trigger property setters to extract fields and relationships
         self.fields = self.django_model
         self.relationships = self.django_model
         self.name = model.__name__
@@ -112,8 +113,8 @@ class ModelDefinition(BaseDefinition):
         for field in django_model._meta.get_fields():
             relationship = FieldDefinition.get_relationship(field, dialect=self.dialect)
             if relationship and relationship.rel != "one_to_many":
-                # NOTE: one_to_many and many_to_one are duplicated, so we only take one
-                # of these values.
+                # one_to_many is the reverse side of many_to_one ForeignKey
+                # - we only keep the many_to_one side to avoid duplication
                 valid_relationships.append(relationship)
         self._relationships = valid_relationships
 
@@ -150,7 +151,7 @@ class ModelArray(BaseArray):
     @classmethod
     def get_models(
         cls,
-        valid_apps: Union[list[str], None] = None,
+        valid_apps: list[str] | None = None,
         dialect: Dialect = Dialect.MERMAID,
     ) -> "ModelArray":
         """
@@ -169,7 +170,7 @@ class ModelArray(BaseArray):
         _dialect = Dialect(dialect)
         valid = cls(dialect=_dialect)
 
-        models = [i for i in d.apps.get_models()]
+        models = list(d.apps.get_models())
         for model in models:
             if not valid_apps or (model._meta.app_label in valid_apps):
                 valid.append(ModelDefinition(model, dialect=_dialect))
@@ -192,10 +193,12 @@ class ModelArray(BaseArray):
         models.sort(key=lambda x: (len(x.relationships), x.name))
         for model in models:
             for relationship in model.relationships:
-                if relationship.to_string() not in valid:
-                    if relationship.inverse().to_string() not in valid:
-                        valid.append(relationship.to_string())
-                        unique.append(relationship)
+                if (
+                    relationship.to_string() not in valid
+                    and relationship.inverse().to_string() not in valid
+                ):
+                    valid.append(relationship.to_string())
+                    unique.append(relationship)
         return unique
 
     def to_string(self) -> str:

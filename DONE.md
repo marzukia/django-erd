@@ -1,0 +1,15 @@
+- [x] conftest.py: pytest_configure calls settings.configure() unconditionally - conflicts with pytest-django's DJANGO_SETTINGS_MODULE, should check if already configured
+- [x] definitions/models.py line 118: relationships setter excludes one_to_many but comment says 'duplicated' - unclear if this misses legitimate relationships
+- [x] definitions/fields.py line 128: Mermaid space replacement uses data_type.replace(' ', '_') but PK_PATTERN_LOOKUP might also have spaces - inconsistent
+- [x] utils/data_dictionary.py line 44: typo 'DICTIOANRY_RENDER_TEMPLATE' should be 'DICTIONARY_RENDER_TEMPLATE'
+- [x] README.md line 31: installation section has placeholder text 'Install using `pip`...' instead of actual instructions
+- [x] tests/test_comprehensive.py line 68: test_field_with_null_and_blank expects 3 fields (includes auto id) but assertion comment says 'Should have both fields' - misleading
+- [x] tests/test_comprehensive.py line 157: test_multiple_relationships_to_same_model only asserts relationships is not None - should verify both relationships exist
+- [x] pyproject.toml line 28: dependencies array is empty but package has runtime dependencies on django - should list them explicitly
+- [x] .github/workflows/test.yml lines 34-36: GDAL environment variables set but not used before uv sync - might need to be set earlier for package installation
+- [x] tests/test_comprehensive.py line 131: test_self_referential_relationships only asserts relationships is not None - should verify the self-reference was detected
+- [x] utils/data_dictionary.py line 186: doc_string comparison logic is fragile - compares by length which could match incorrectly
+- [x] README.md: missing uninstallation instructions and troubleshooting section
+- [x] definitions/models.py lines 56-57: ModelDefinition.__init__ assigns self.fields/self.relationships to self.django_model before calling setters - redundant and confusing
+- [x] definitions/fields.py lines 58-60: FieldDefinition.__init__ same issue - assigns self.col_name/data_type/primary_key to self.django_field before setters
+- [x] definitions/relationships.py line 72: to_field assignment uses field.attname but for reverse relations this might not exist - should handle AttributeError

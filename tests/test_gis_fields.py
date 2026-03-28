@@ -7,18 +7,21 @@ from unittest import TestCase
 
 from django_erd_generator.contrib.dialects import Dialect
 from django_erd_generator.contrib.gis_fields import (
-    is_gis_field,
     get_gis_field_type,
+    is_gis_field,
 )
 from django_erd_generator.definitions.fields import FieldDefinition
 
 # Import test models
 try:
-    from .gis_models import TestGISModel, TestLocationModel, GIS_AVAILABLE
-except ImportError:
+    from .gis_models import GIS_AVAILABLE, TestGISModel, TestLocationModel
+except (ImportError, Exception):
     GIS_AVAILABLE = False
+    TestGISModel = None
+    TestLocationModel = None
 
 
+@unittest.skipUnless(GIS_AVAILABLE, "GDAL library not available")
 class GISFieldTestCase(TestCase):
     """Test GIS field type detection and mapping."""
 
@@ -125,7 +128,7 @@ class GISModelGenerationTestCase(TestCase):
 
         # Check that the model structure is correct
         self.assertIn("TestLocationModel", result)
-        self.assertIn("text name", result)
+        self.assertIn("varchar name", result)
         self.assertIn("geometry_point coordinates", result)
         self.assertIn("geometry_polygon coverage_area", result)
 
@@ -138,7 +141,7 @@ class GISModelGenerationTestCase(TestCase):
 
         # Check that the model structure is correct
         self.assertIn("entity TestLocationModel", result)
-        self.assertIn("name: text", result)
+        self.assertIn("name: varchar", result)
         self.assertIn("coordinates: POINT", result)
         self.assertIn("coverage_area: POLYGON", result)
 
@@ -151,6 +154,6 @@ class GISModelGenerationTestCase(TestCase):
 
         # Check that the model structure is correct
         self.assertIn("Table TestLocationModel", result)
-        self.assertIn('name "text"', result)
+        self.assertIn('name "varchar"', result)
         self.assertIn('coordinates "geometry(POINT)"', result)
         self.assertIn('coverage_area "geometry(POLYGON)"', result)

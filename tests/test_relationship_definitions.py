@@ -2,6 +2,7 @@ from unittest import TestCase
 
 from django_erd_generator.contrib.dialects import Dialect
 from django_erd_generator.definitions.fields import FieldDefinition, Relationship
+
 from .models import Order, TaggedItem
 from .utils import ModelArray
 

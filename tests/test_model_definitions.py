@@ -2,6 +2,7 @@ import os
 from unittest import TestCase
 
 from django_erd_generator.contrib.dialects import Dialect
+
 from .utils import ModelArray
 
 
@@ -18,7 +19,7 @@ class ModelDefinitionTestCase(TestCase):
         ]
         for i, model in enumerate(self.models):
             field_names = [x.col_name for x in model.fields]
-            names_exist = all([x in field_names for x in expected_fields[i]])
+            names_exist = all(x in field_names for x in expected_fields[i])
             self.assertEqual(names_exist, True)
 
     def test_field_types(self):
@@ -30,7 +31,7 @@ class ModelDefinitionTestCase(TestCase):
         ]
         for i, model in enumerate(self.models):
             field_types = [x.data_type["data_type"] for x in model.fields]
-            types_correct = all([x in field_types for x in expected_types[i]])
+            types_correct = all(x in field_types for x in expected_types[i])
             self.assertEqual(types_correct, True)
 
     def test_model_relationships(self):
@@ -72,11 +73,13 @@ class ModelArrayTestCase(TestCase):
     def test_model_array_dialect_render(self):
         test_dir = os.path.dirname(__file__)
         test_data = os.path.join(test_dir, "test_data")
-        expected_render = {
-            Dialect.MERMAID: open(os.path.join(test_data, "mermaid.txt")).read(),
-            Dialect.PLANTUML: open(os.path.join(test_data, "plantuml.txt")).read(),
-            Dialect.DBDIAGRAM: open(os.path.join(test_data, "dbdiagram.txt")).read(),
-        }
+        expected_render = {}
+        with open(os.path.join(test_data, "mermaid.txt")) as f:
+            expected_render[Dialect.MERMAID] = f.read()
+        with open(os.path.join(test_data, "plantuml.txt")) as f:
+            expected_render[Dialect.PLANTUML] = f.read()
+        with open(os.path.join(test_data, "dbdiagram.txt")) as f:
+            expected_render[Dialect.DBDIAGRAM] = f.read()
         for dialect, expected in expected_render.items():
             model_arr = ModelArray.get_models("test", dialect=dialect)
             self.assertEqual(model_arr.to_string(), expected)

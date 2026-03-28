@@ -27,13 +27,16 @@ Django ERD Generator is a comprehensive command-line tool designed to generate E
 
 ## Installation
 
-Install using `pip`...
+Install using `pip`:
 
-    pip install django-erd-generator
+```sh
+pip install django-erd-generator
+```
 
 Add `'django_erd_generator'` to your `INSTALLED_APPS` setting.
 
 ```python
+
 INSTALLED_APPS = [
     # ...
     "django_erd_generator",
@@ -478,7 +481,61 @@ python manage.py generate_data_dictionary --output SCHEMA.md
 git add SCHEMA.md && git commit -m "Update schema documentation"
 ```
 
-## **Supported Versions**
+## Uninstallation
+
+To remove the package:
+
+```sh
+pip uninstall django-erd-generator
+```
+
+Then remove `'django_erd_generator'` from your `INSTALLED_APPS` setting.
+
+## Troubleshooting
+
+### GDAL Import Errors
+
+If you encounter errors related to GDAL when using GIS fields:
+
+```
+ImportError: libgdal.so: cannot open shared object file
+```
+
+**Solution:** Install GDAL system libraries:
+
+```sh
+# Ubuntu/Debian
+sudo apt-get install gdal-bin libgdal-dev
+
+# CentOS/RHEL
+sudo yum install gdal gdal-devel
+
+# macOS (with Homebrew)
+brew install gdal
+```
+
+Set the required environment variables:
+
+```sh
+export CPLUS_INCLUDE_PATH=/usr/include/gdal
+export C_INCLUDE_PATH=/usr/include/gdal
+export GDAL_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
+```
+
+### Database Connection Errors
+
+If tests fail with database connection errors:
+
+**Solution:** Ensure your database is running and settings are configured correctly. For SQLite (default), verify the database file exists.
+
+### Missing Field Types
+
+If certain Django fields show as empty or unknown:
+
+**Solution:** Check if you're using a custom field type. Custom fields may need explicit type mapping in the dialect configuration.
+
+
+## Supported Versions
 
 This project is tested against the following versions:
 

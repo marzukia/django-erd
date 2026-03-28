@@ -6,7 +6,7 @@ from structured data. It's primarily used for creating data dictionary documenta
 with consistent formatting and proper alignment.
 """
 
-from typing import Any, Dict, List
+from typing import Any
 
 
 class Table:
@@ -30,7 +30,7 @@ class Table:
         >>> print(table)
     """
 
-    def __init__(self, data: List[Dict[str, Any]] = None):
+    def __init__(self, data: list[dict[str, Any]] = None):
         """
         Initialize the table with data.
 
@@ -62,7 +62,7 @@ class Table:
         )
 
     @headers.setter
-    def headers(self, headers: List[str]) -> None:
+    def headers(self, headers: list[str]) -> None:
         """
         Set the table headers.
 

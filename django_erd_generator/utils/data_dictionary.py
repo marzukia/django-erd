@@ -14,9 +14,9 @@ Key Features:
 - Markdown table formatting for consistent presentation
 """
 
-from collections import defaultdict
 import os
-from typing import Dict, List, Optional
+from collections import defaultdict
+
 from django_erd_generator.contrib.dialects import Dialect
 from django_erd_generator.contrib.markdown import Table
 from django_erd_generator.definitions.models import ModelArray, ModelDefinition
@@ -41,7 +41,7 @@ APPS_RENDER_TEMPLATE = """\
 """
 
 # Template for the complete data dictionary document
-DICTIOANRY_RENDER_TEMPLATE = """\
+DICTIONARY_RENDER_TEMPLATE = """\
 # {project_name} - Data Dictionary
 
 Commit `{commit}`
@@ -95,8 +95,8 @@ class DataDictionary:
 
     @classmethod
     def get_data_dictionary(
-        cls, apps: Optional[List[str]] = None
-    ) -> Dict[str, ModelDefinition]:
+        cls, apps: list[str] | None = None
+    ) -> dict[str, ModelDefinition]:
         """
         Extract and organize model definitions for data dictionary generation.
 
@@ -119,8 +119,8 @@ class DataDictionary:
 
     @classmethod
     def get_apps_map(
-        cls, apps: Optional[List[str]] = None
-    ) -> Dict[str, List[ModelDefinition]]:
+        cls, apps: list[str] | None = None
+    ) -> dict[str, list[ModelDefinition]]:
         """
         Organize models by Django app for structured documentation.
 
@@ -137,7 +137,7 @@ class DataDictionary:
         apps_map = defaultdict(list)
         for model_name, model in data_dictionary.items():
             app_label = model.django_model._meta.app_label
-            setattr(model, "name", model_name)
+            model.name = model_name
             apps_map[app_label].append(model)
         return apps_map
 
@@ -169,9 +169,7 @@ class DataDictionary:
                     "field_name": field._col_name,
                     "data_type": f"`{field._data_type['data_type'].replace('_', ' ') or ''}`",
                     "related_model": f"[{related.__name__}](#{related.__name__})"
-                    if related
-                    else related.__name__
-                    if related
+                    if related and hasattr(related, "__name__")
                     else "",
                     "description": meta.get("help_text", "").replace("\n", " "),
                     "nullable": "✓" if meta.get("null") else "",
@@ -187,7 +185,9 @@ class DataDictionary:
         signature = f"{model_name}({', '.join([i.name for i in model.django_model._meta.get_fields() if i.concrete])})"
         model_name = f"{model_name}[#](#{model.django_model.__name__})"
 
-        if doc_string[: len(model_name)] == signature[: len(model_name)]:
+        # Skip docstring if it matches the auto-generated signature
+        # Compare stripped strings directly instead of prefix matching
+        if doc_string.strip() == signature.strip():
             doc_string = ""
 
         return MODEL_RENDER_TEMPLATE.format(
@@ -198,7 +198,7 @@ class DataDictionary:
         )
 
     @classmethod
-    def generate_data_dictionary(cls, apps: Optional[List[str]] = None) -> str:
+    def generate_data_dictionary(cls, apps: list[str] | None = None) -> str:
         """
         Generate complete data dictionary documentation in Markdown format.
 
@@ -214,7 +214,7 @@ class DataDictionary:
         """
         apps_map = cls.get_apps_map(apps=apps)
 
-        rendered_apps: List[str] = []
+        rendered_apps: list[str] = []
 
         project_name = "Django Project"
         settings_module = os.environ.get("DJANGO_SETTINGS_MODULE")
@@ -227,7 +227,7 @@ class DataDictionary:
 
             apps_map[app] = sorted(arr, key=lambda x: x.django_model.__name__)
 
-            rendered_models: List[str] = []
+            rendered_models: list[str] = []
             for model in arr:
                 model_name = model.django_model.__name__
                 toc.append(f"    - [{model_name}](#{model_name})")
@@ -238,7 +238,7 @@ class DataDictionary:
             )
             rendered_apps.append(apps_map[app])
 
-        return DICTIOANRY_RENDER_TEMPLATE.format(
+        return DICTIONARY_RENDER_TEMPLATE.format(
             project_name=project_name,
             apps="\n".join(rendered_apps),
             commit=get_git_commit(),
@@ -249,7 +249,7 @@ class DataDictionary:
     def save_data_dictionary(
         cls,
         path: str,
-        apps: Optional[List[str]] = None,
+        apps: list[str] | None = None,
     ) -> None:
         """
         Generate and save data dictionary documentation to a file.

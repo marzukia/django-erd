@@ -1,3 +1,5 @@
+import os
+
 import django
 from django.core import management
 
@@ -15,47 +17,52 @@ def pytest_addoption(parser):
 def pytest_configure(config=None):
     from django.conf import settings
 
-    settings.configure(
-        DEBUG_PROPAGATE_EXCEPTIONS=True,
-        DATABASES={
-            "default": {"ENGINE": "django.db.backends.sqlite3", "NAME": ":memory:"},
-            "secondary": {"ENGINE": "django.db.backends.sqlite3", "NAME": ":memory:"},
-        },
-        SITE_ID=1,
-        SECRET_KEY="not very secret in tests",
-        USE_I18N=True,
-        STATIC_URL="/static/",
-        ROOT_URLCONF="tests.urls",
-        TEMPLATES=[
-            {
-                "BACKEND": "django.template.backends.django.DjangoTemplates",
-                "APP_DIRS": True,
-                "OPTIONS": {
-                    "debug": True,
+    # Don't configure if pytest-django or user already configured
+    if settings.configured or os.environ.get("DJANGO_SETTINGS_MODULE"):
+        return
+        settings.configure(
+            DEBUG_PROPAGATE_EXCEPTIONS=True,
+            DATABASES={
+                "default": {"ENGINE": "django.db.backends.sqlite3", "NAME": ":memory:"},
+                "secondary": {
+                    "ENGINE": "django.db.backends.sqlite3",
+                    "NAME": ":memory:",
                 },
             },
-        ],
-        MIDDLEWARE=(
-            "django.middleware.common.CommonMiddleware",
-            "django.contrib.sessions.middleware.SessionMiddleware",
-            "django.contrib.auth.middleware.AuthenticationMiddleware",
-            "django.contrib.messages.middleware.MessageMiddleware",
-        ),
-        INSTALLED_APPS=(
-            "django.contrib.admin",
-            "django.contrib.auth",
-            "django.contrib.contenttypes",
-            "django.contrib.sessions",
-            "django.contrib.sites",
-            "django.contrib.staticfiles",
-            "django_erd_generator",
-            "tests",
-        ),
-        PASSWORD_HASHERS=("django.contrib.auth.hashers.MD5PasswordHasher",),
-    )
+            SITE_ID=1,
+            SECRET_KEY="not very secret in tests",
+            USE_I18N=True,
+            STATIC_URL="/static/",
+            ROOT_URLCONF="tests.urls",
+            TEMPLATES=[
+                {
+                    "BACKEND": "django.template.backends.django.DjangoTemplates",
+                    "APP_DIRS": True,
+                    "OPTIONS": {
+                        "debug": True,
+                    },
+                },
+            ],
+            MIDDLEWARE=(
+                "django.middleware.common.CommonMiddleware",
+                "django.contrib.sessions.middleware.SessionMiddleware",
+                "django.contrib.auth.middleware.AuthenticationMiddleware",
+                "django.contrib.messages.middleware.MessageMiddleware",
+            ),
+            INSTALLED_APPS=(
+                "django.contrib.admin",
+                "django.contrib.auth",
+                "django.contrib.contenttypes",
+                "django.contrib.sessions",
+                "django.contrib.sites",
+                "django.contrib.staticfiles",
+                "django_erd_generator",
+                "tests",
+            ),
+            PASSWORD_HASHERS=("django.contrib.auth.hashers.MD5PasswordHasher",),
+        )
 
-    django.setup()
+        django.setup()
 
-    if config:
-        if config.getoption("--staticfiles"):
+        if config and config.getoption("--staticfiles"):
             management.call_command("collectstatic", verbosity=0, interactive=False)

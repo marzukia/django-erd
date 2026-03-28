@@ -7,7 +7,8 @@ field information according to different diagramming tool requirements.
 """
 
 import re
-from django.db import models, connection
+
+from django.db import connection, models
 
 from django_erd_generator.contrib.dialects import (
     FIELD_PATTERN_LOOKUP,
@@ -15,8 +16,8 @@ from django_erd_generator.contrib.dialects import (
     Dialect,
 )
 from django_erd_generator.contrib.gis_fields import (
-    is_gis_field,
     get_gis_field_type,
+    is_gis_field,
 )
 from django_erd_generator.definitions.base import BaseArray, BaseDefinition
 from django_erd_generator.definitions.relationships import Relationship
@@ -54,10 +55,12 @@ class FieldDefinition(BaseDefinition):
         """
         self.django_field = field
         self.dialect = dialect
+        # Trigger property setters to extract field properties
         self.col_name = self.django_field
         self.data_type = self.django_field
         self.primary_key = self.django_field
 
+    @classmethod
     @classmethod
     def get_relationship(
         cls,
@@ -121,9 +124,8 @@ class FieldDefinition(BaseDefinition):
             if matches:
                 data_type, args = matches[0]
             if dialect is Dialect.MERMAID:
-                # NOTE: MermaidJS erDiagram does not currently support spaces in either the field name,
-                # or the data type. It incorrectly attempts to parse it as a comment.
-                # More information: https://github.com/mermaid-js/mermaid/issues/1546
+                # MermaidJS doesn't support spaces in data types (parses as comments)
+                # PK patterns like "pk" don't have spaces, only data types like "character varying"
                 data_type = data_type.replace(" ", "_")
             return {
                 "data_type": data_type.lower(),
