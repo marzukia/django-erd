@@ -6,3 +6,4 @@ docs/_build/
 main.py
 docs/_output/
 .venv/
+.DS_Store

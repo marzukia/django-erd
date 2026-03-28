@@ -169,9 +169,7 @@ class DataDictionary:
                     "field_name": field._col_name,
                     "data_type": f"`{field._data_type['data_type'].replace('_', ' ') or ''}`",
                     "related_model": f"[{related.__name__}](#{related.__name__})"
-                    if related
-                    else related.__name__
-                    if related
+                    if related and hasattr(related, "__name__")
                     else "",
                     "description": meta.get("help_text", "").replace("\n", " "),
                     "nullable": "✓" if meta.get("null") else "",
