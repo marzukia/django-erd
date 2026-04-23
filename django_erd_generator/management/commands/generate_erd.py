@@ -43,7 +43,7 @@ class Command(BaseCommand):
             "--apps",
             required=False,
             default=None,
-            help='The name of the apps which should be included in the ERD generated, these should be seperated by a comma, for example "shopping,polls". If no value is specified, all apps will be included.',
+            help='The name of the apps which should be included in the ERD generated, these should be separated by a comma, for example "shopping,polls". If no value is specified, all apps will be included.',
         )
         parser.add_argument(
             "-d",
