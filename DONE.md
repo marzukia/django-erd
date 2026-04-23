@@ -35,3 +35,9 @@
 - [x] removed `.flake8` but no mention in docs that ruff is now the single source of truth
 - [x] ruff-format applied inconsistently - some comments wrapped at weird points
 - [x] `data_dictionary.py` line 138: `model.name = model_name` - might conflict with actual model field name
+- [x] dropped 3.8 but no deprecation notice in changelog/readme for users still on 3.8
+- [x] `ruff --fix` auto-fixes in pre-commit is dangerous - should be `ruff check` only
+- [x] no `--exit-zero` on ruff - pre-commit will fail on first lint error instead of showing all issues
+- [x] performance test threshold relaxed from 1s→15s - indicates real performance regression
+- [x] no migration guide for users moving from black/flake8→ruff
+- [x] import sorting moved `from django.db import models` to different positions in different files

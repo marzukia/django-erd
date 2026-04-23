@@ -67,9 +67,10 @@ source .venv/bin/activate  # On Unix/macOS
 # or
 .venv\Scripts\activate  # On Windows
 
-# Install dependencies
-uv pip install -e ".[dev]"
+# Install dependencies (including dev dependencies: django, pytest, ruff, pre-commit, etc.)
+uv sync --dev
 ```
+
 
 ### Running linter and formatter
 
