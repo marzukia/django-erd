@@ -1,5 +1,0 @@
-- [ ] varchar→text normalization in fields.py is silent - no warning logged when conversion happens
-- [ ] `conftest.py` settings.configure guard has excessive indentation (16 spaces) from ruff-format
-- [ ] README "Development Setup" shows `uv pip install -e ".[dev]"` but dev extras aren't clearly documented
-- [ ] `uv.lock` has 529 lines changed - should verify no dependency version conflicts or security issues
-- [ ] no tests for the varchar→text normalization path

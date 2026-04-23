@@ -42,3 +42,8 @@
 - [x] no migration guide for users moving from black/flake8→ruff
 - [x] import sorting moved `from django.db import models` to different positions in different files
 - [x] README shows `curl ... | sh` for uv install - piping curl to shell is risky
+- [x] varchar→text normalization in fields.py is silent - no warning logged when conversion happens
+- [x] README "Development Setup" shows `uv pip install -e ".[dev]"` but dev extras aren't clearly documented
+- [x] `uv.lock` has 529 lines changed - should verify no dependency version conflicts or security issues
+- [x] `conftest.py` settings.configure guard has excessive indentation (16 spaces) from ruff-format
+- [x] no tests for the varchar→text normalization path
