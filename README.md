@@ -523,9 +523,11 @@ git add SCHEMA.md && git commit -m "Update schema documentation"
 
 ## **Supported Versions**
 
+**⚠️ Python 3.8 Deprecated**: Support for Python 3.8 has been dropped as of this release. Please upgrade to Python 3.9 or later.
+
 This project is tested against the following versions:
 
-- **Python**: `3.8, 3.9, 3.10, 3.11, 3.12`
+- **Python**: `3.9, 3.10, 3.11, 3.12, 3.13`
 - **Django**: Latest compatible version based on `tox` dependencies
 
 Ensure you have one of the supported Python versions installed before running tests. You can check your Python version with:
@@ -534,3 +536,4 @@ python --version
 ```
 
 For testing, tox will automatically create isolated environments for each supported Python version.
+

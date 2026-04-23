@@ -1,0 +1,19 @@
+- [ ] Add deprecation notice in changelog/readme for dropping 3.8 support
+- [ ] Document rationale for pinning astral-sh/setup-uv@v5 version
+- [ ] Change ruff --fix to ruff check only - auto-fixes in pre-commit are dangerous before review
+- [ ] Add --exit-zero flag to ruff to show all issues instead of failing on first error
+- [ ] Rename aliased import import django.apps as d to django.apps or apps for clarity
+- [ ] Add warning log when varchar→text conversion happens in fields.py
+- [ ] Review excessive indentation (16 spaces) in conftest.py after ruff-format
+- [ ] Investigate performance regression in test_model_array_creation_performance (13s vs expected 4-5s) - don't just bump threshold
+- [ ] Update outdated comment in test_null_blank_options test
+- [ ] Standardize import blank line consistency across all files
+- [ ] Document what dev extras include in pyproject.toml
+- [ ] Add migration guide for users moving from black/flake8→ruff
+- [ ] Replace curl | sh uv install with checksum-verified download in README
+- [ ] Verify no dependency version conflicts or security issues in uv.lock changes
+- [ ] Fix comment wrapping inconsistencies (e.g., mermaid.js link split across 3 lines)
+- [ ] Standardize import sorting order across all files
+- [ ] Review model.name = model_name in data_dictionary.py line 138 - potential field name conflict
+- [ ] Add tests for varchar→text normalization path
+- [ ] Replace curl | sh with verified download method in README
