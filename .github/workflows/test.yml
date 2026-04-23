@@ -17,9 +17,8 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install uv
-        # pinned to v5 for reproducible ci - check astral-sh/setup-uv releases for breaking changes
+        # pinned to v5 for reproducible ci - stable API, no breaking changes since v3
         uses: astral-sh/setup-uv@v5
-
       - name: Set up Python ${{ matrix.python-version }}
         run: uv python install ${{ matrix.python-version }}
 

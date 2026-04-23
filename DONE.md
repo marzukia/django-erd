@@ -27,3 +27,5 @@
 - [x] Review model.name = model_name in data_dictionary.py line 138 - potential field name conflict
 - [x] Add tests for varchar→text normalization path
 - [x] Replace curl | sh with verified download method in README
+- [x] GDAL install step runs `gdal-config` before GDAL is installed - needs `gdal-bin` installed first
+- [x] uv setup step uses `astral-sh/setup-uv@v5` - pinned version could break, should document version pin rationale
