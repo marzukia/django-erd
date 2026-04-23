@@ -221,7 +221,9 @@ class PerformanceTests(TestCase):
         self.assertLess(end_time - start_time, 1.0)
 
         # Should have expected number of models
-        self.assertEqual(len(model_arr), 4)  # Customer, Product, Order, Region
+        self.assertEqual(
+            len(model_arr), 5
+        )  # Customer, Product, Order, Region, TestGISModel
 
     def test_large_model_set_handling(self):
         """Test handling of larger model sets."""
