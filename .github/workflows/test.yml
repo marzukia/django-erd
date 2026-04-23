@@ -19,6 +19,7 @@ jobs:
       - name: Install uv
         # pinned to v5 for reproducible ci - stable API, no breaking changes since v3
         uses: astral-sh/setup-uv@v5
+
       - name: Set up Python ${{ matrix.python-version }}
         run: uv python install ${{ matrix.python-version }}
 
@@ -30,10 +31,7 @@ jobs:
       - name: Install Python GDAL bindings
         run: uv pip install gdal==$(gdal-config --version)
 
-      - name: Create virtual environment
-        run: uv venv
-
-      - name: Sync dependencies
+      - name: Sync dependencies and install project
         run: uv sync --all-extras --dev
 
       - name: Run tests

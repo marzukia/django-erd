@@ -83,13 +83,72 @@ ruff format .
 
 # Run tests
 pytest
-```
+## Migration Guide
+
+### From black/flake8 to ruff
+
+This project now uses `ruff` as a drop-in replacement for both `black` and `flake8`.
+
+To migrate your project:
+
+1. **Remove old dependencies** from your `pyproject.toml` or `requirements.txt`:
+   ```toml
+   # Remove these:
+   # black
+   # flake8
+   # isort
+   # pylint
+   ```
+
+2. **Install ruff**:
+   ```bash
+   pip install ruff
+   ```
+
+3. **Remove old config files**:
+   ```bash
+   # Delete these if they exist:
+   # .flake8
+   # setup.cfg (flake8 section)
+   # pyproject.toml [tool.black] section
+   # pyproject.toml [tool.isort] section
+   ```
+
+4. **Add ruff config** to `pyproject.toml`:
+   ```toml
+   [tool.ruff]
+   line-length = 88
+   target-version = "py39"
+
+   [tool.ruff.lint]
+   select = ["E", "F", "W", "I", "UP", "B", "C4", "SIM"]
+   ```
+
+5. **Update pre-commit hooks** (if using):
+   ```yaml
+   # .pre-commit-config.yaml
+   repos:
+     - repo: https://github.com/astral-sh/ruff-pre-commit
+       rev: v0.9.0
+       hooks:
+         - id: ruff
+         - id: ruff-format
+   ```
+
+6. **Run ruff** to check and format:
+   ```bash
+   ruff check .  # linting (replaces flake8)
+   ruff format .  # formatting (replaces black)
+   ```
+
+Ruff is 10-100x faster than black+flake8 and has better error messages.
 
 ## Quickstart
 
 To generate an Entity-Relationship Diagram (ERD) in the desired syntax, use the `generate_erd` command:
 
 ```sh
+
 python manage.py generate_erd [-h] [-a APPS] [-d DIALECT] [-o OUTPUT]
 ```
 

@@ -41,3 +41,4 @@
 - [x] performance test threshold relaxed from 1s→15s - indicates real performance regression
 - [x] no migration guide for users moving from black/flake8→ruff
 - [x] import sorting moved `from django.db import models` to different positions in different files
+- [x] README shows `curl ... | sh` for uv install - piping curl to shell is risky

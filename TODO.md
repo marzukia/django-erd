@@ -3,4 +3,3 @@
 - [ ] README "Development Setup" shows `uv pip install -e ".[dev]"` but dev extras aren't clearly documented
 - [ ] `uv.lock` has 529 lines changed - should verify no dependency version conflicts or security issues
 - [ ] no tests for the varchar→text normalization path
-- [ ] README shows `curl ... | sh` for uv install - piping curl to shell is risky
