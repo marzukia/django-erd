@@ -1,7 +1,6 @@
 - [ ] dropped 3.8 but no deprecation notice in changelog/readme for users still on 3.8
 - [ ] `ruff --fix` auto-fixes in pre-commit is dangerous - should be `ruff check` only
 - [ ] no `--exit-zero` on ruff - pre-commit will fail on first lint error instead of showing all issues
-- [ ] `django.apps as d` - aliased import `d` is unclear, should be `django.apps` or `apps`
 - [ ] varchar→text normalization in fields.py is silent - no warning logged when conversion happens
 - [ ] `conftest.py` settings.configure guard has excessive indentation (16 spaces) from ruff-format
 - [ ] performance test threshold relaxed from 1s→15s - indicates real performance regression

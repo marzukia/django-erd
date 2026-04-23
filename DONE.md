@@ -29,3 +29,4 @@
 - [x] Replace curl | sh with verified download method in README
 - [x] GDAL install step runs `gdal-config` before GDAL is installed - needs `gdal-bin` installed first
 - [x] uv setup step uses `astral-sh/setup-uv@v5` - pinned version could break, should document version pin rationale
+- [x] `django.apps as d` - aliased import `d` is unclear, should be `django.apps` or `apps`
