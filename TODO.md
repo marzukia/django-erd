@@ -1,3 +1,0 @@
-- [ ] Fix typo in django_erd_generator/utils/data_dictionary.py:45: DICTIOANRY_RENDER_TEMPLATE → DICTIONARY_RENDER_TEMPLATE
-- [ ] Remove duplicate entries from DONE.md
-- [ ] Add contribution guidelines

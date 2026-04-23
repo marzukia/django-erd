@@ -45,6 +45,8 @@ dev = [
     "ruff>=0.9.0",             # linting and formatting
     "uv>=0.6.0",               # python package manager
     "pre-commit>=4.1.0",       # git hooks
+    "mkdocs>=1.6.0",           # documentation generator
+    "mkdocs-material>=9.5.0",  # mkdocs theme
 ]
 
 [tool.ruff]
