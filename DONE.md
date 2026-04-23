@@ -26,3 +26,4 @@
 - [x] Standardize import sorting order across all files
 - [x] Review model.name = model_name in data_dictionary.py line 138 - potential field name conflict
 - [x] Add tests for varchar→text normalization path
+- [x] Replace curl | sh with verified download method in README

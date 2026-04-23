@@ -1,1 +1,0 @@
-- [ ] Replace curl | sh with verified download method in README
