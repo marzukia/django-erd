@@ -41,6 +41,21 @@ dev = [
     "pytest>=8.3.4",
     "pytest-django>=4.10.0",
     "ipython>=8.12.3",
+    "ruff>=0.9.0",
+    "pre-commit>=4.1.0",
 ]
 
+[tool.ruff]
+target-version = "py38"
+line-length = 88
 
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "C4", "SIM"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "tests.settings"
+python_files = ["test_*.py"]
