@@ -15,6 +15,32 @@ Django ERD Generator is a comprehensive command-line tool designed to generate E
 * PlantUML
 * dbdiagram.io
 
+## GIS Field Support
+
+The generator supports Django's GeoDjango (GIS) fields. Add `'django.contrib.gis'` to your `INSTALLED_APPS` and use GIS field types in your models:
+
+```python
+from django.contrib.gis.db import models
+
+class Location(models.Model):
+    name = models.CharField(max_length=100)
+    point = models.PointField()
+    boundary = models.PolygonField()
+    routes = models.MultiLineStringField()
+```
+
+Supported GIS Fields:
+- `PointField` → point coordinates
+- `LineStringField` → line/path geometries
+- `PolygonField` → area/region geometries
+- `MultiPointField`, `MultiLineStringField`, `MultiPolygonField` → collections
+- `GeometryCollectionField` → mixed geometry collections
+- `GeometryField` → generic geometry
+- `RasterField` → raster/image data
+
+GIS fields are automatically detected and rendered with appropriate type names for each dialect (e.g., `geometry_point` in Mermaid, `POINT` in PlantUML).
+
+
 ## Feature Overview
 
 | Feature | ERD Generation | Data Dictionary |

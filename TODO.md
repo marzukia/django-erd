@@ -1,5 +1,3 @@
 - [ ] Fix typo in django_erd_generator/utils/data_dictionary.py:45: DICTIOANRY_RENDER_TEMPLATE → DICTIONARY_RENDER_TEMPLATE
 - [ ] Remove duplicate entries from DONE.md
-- [ ] Add documentation for GIS field support (contrib/gis_fields.py)
-- [ ] Create changelog or version history documentation
 - [ ] Add contribution guidelines
