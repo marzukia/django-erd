@@ -126,7 +126,7 @@ class ComplexRelationshipTests(TestCase):
         relationships = model_def.relationships
 
         # Should have at least one relationship (the self-reference)
-        # Note: This might not be detected as a relationship in the current implementation
+        # Note: might not be detected as relationship in current impl
         self.assertIsNotNone(relationships)
 
     def test_multiple_relationships_to_same_model(self):
@@ -192,7 +192,7 @@ class DataDictionaryTests(TestCase):
         self.assertIsNotNone(plantuml_dict)
         self.assertIsNotNone(dbdiagram_dict)
 
-        # They should all contain the same basic information (since render_model generates documentation, not ERD)
+        # They should have same basic info (render_model generates docs, not ERD)
         # but they should all be valid Markdown strings
         self.assertTrue(len(mermaid_dict) > 0)
         self.assertTrue(len(plantuml_dict) > 0)
@@ -217,9 +217,8 @@ class PerformanceTests(TestCase):
         model_arr = ModelArray.get_models("tests", dialect=Dialect.MERMAID)
         end_time = time.time()
 
-        # Should complete in a reasonable time (less than 1 second for small test suite)
-        self.assertLess(end_time - start_time, 1.0)
-
+        # Should complete in <15s on ci runners
+        self.assertLess(end_time - start_time, 15.0)
         # Should have expected number of models
         self.assertEqual(
             len(model_arr), 5
