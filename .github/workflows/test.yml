@@ -29,7 +29,7 @@ jobs:
           sudo apt-get install -y gdal-bin libgdal-dev
 
       - name: Install Python GDAL bindings
-        run: uv pip install --python .venv/bin/python gdal==$(gdal-config --version)
+        run: uv pip install gdal==$(gdal-config --version)
       - name: Sync dependencies and install project
         run: uv sync --all-extras --dev
 
