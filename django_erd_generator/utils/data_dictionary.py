@@ -42,7 +42,7 @@ APPS_RENDER_TEMPLATE = """\
 """
 
 # Template for the complete data dictionary document
-DICTIOANRY_RENDER_TEMPLATE = """\
+DICTIONARY_RENDER_TEMPLATE = """\
 # {project_name} - Data Dictionary
 
 Commit `{commit}`
@@ -237,7 +237,7 @@ class DataDictionary:
             )
             rendered_apps.append(apps_map[app])
 
-        return DICTIOANRY_RENDER_TEMPLATE.format(
+        return DICTIONARY_RENDER_TEMPLATE.format(
             project_name=project_name,
             apps="\n".join(rendered_apps),
             commit=get_git_commit(),

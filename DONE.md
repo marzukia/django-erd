@@ -47,3 +47,4 @@
 - [x] `uv.lock` has 529 lines changed - should verify no dependency version conflicts or security issues
 - [x] `conftest.py` settings.configure guard has excessive indentation (16 spaces) from ruff-format
 - [x] no tests for the varchar→text normalization path
+- [x] Fix typo in README.md line 48: 'seperated' → 'separated'
