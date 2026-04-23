@@ -31,13 +31,11 @@ jobs:
       - name: Install Python GDAL bindings
         run: uv pip install gdal==$(gdal-config --version)
 
-      - name: Install dependencies
-        run: |
-          uv sync --all-extras --dev
+      - name: Sync dependencies
+        run: uv sync --all-extras --dev
 
       - name: Run tests
-        run: |
-          uv run pytest tests/ -v
+        run: uv run pytest tests/ -v
 
   lint:
     runs-on: ubuntu-latest
