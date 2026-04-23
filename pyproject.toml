@@ -3,7 +3,7 @@ name = "django-erd-generator"
 version = "0.1.7"
 description = "CLI tool to generate ER diagrams from Django models for Mermaid.js, PlantUML, and dbdiagram.io"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 license = "MIT"
 authors = [{ name = "Andryo Marzuki", email = "andryo@mrzk.io" }]
 keywords = ["django", "ERD", "ER diagram", "entity relationship", "mermaid", "PlantUML", "dbdiagram", "visualization", "data dictionary", "schema documentation", "model documentation", "markdown"]
@@ -15,7 +15,7 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
     "Topic :: Software Development :: Code Generators",
     "Topic :: Software Development :: Documentation",
     "Topic :: Database",
@@ -35,12 +35,29 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [dependency-groups]
+# development dependencies - install with: uv sync --dev
 dev = [
-    "django>=4.2.25",
-    "tox>=4.24.1",
-    "pytest>=8.3.4",
-    "pytest-django>=4.10.0",
-    "ipython>=8.12.3",
+    "django>=4.2.25",          # django framework for testing
+    "tox>=4.24.1",             # cross-version testing
+    "pytest>=8.3.4",           # test runner
+    "pytest-django>=4.10.0",   # django test integration
+    "ipython>=8.12.3",         # interactive shell
+    "ruff>=0.9.0",             # linting and formatting
+    "uv>=0.6.0",               # python package manager
+    "pre-commit>=4.1.0",       # git hooks
 ]
 
+[tool.ruff]
+target-version = "py39"
+line-length = 88
 
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "C4", "SIM"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "tests.settings"
+python_files = ["test_*.py"]

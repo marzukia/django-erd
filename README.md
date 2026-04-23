@@ -40,11 +40,115 @@ INSTALLED_APPS = [
 ]
 ```
 
+
+## Development Setup
+
+This project uses `uv` for dependency management and `ruff` for linting and formatting.
+
+### Installing uv
+
+```bash
+# Install uv
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Or with pip
+pip install uv
+# For security, verify checksum from https://astral.sh/uv/checksums after installation
+```
+
+### Setting up the environment
+
+```bash
+# Create virtual environment with uv
+uv venv
+
+# Activate the virtual environment
+source .venv/bin/activate  # On Unix/macOS
+# or
+.venv\Scripts\activate  # On Windows
+
+# Install dependencies (including dev dependencies: django, pytest, ruff, pre-commit, etc.)
+uv sync --dev
+```
+
+
+### Running linter and formatter
+
+```bash
+# Run ruff linting
+ruff check .
+
+# Run ruff formatting
+ruff format .
+
+# Run tests
+pytest
+## Migration Guide
+
+### From black/flake8 to ruff
+
+This project now uses `ruff` as a drop-in replacement for both `black` and `flake8`.
+
+To migrate your project:
+
+1. **Remove old dependencies** from your `pyproject.toml` or `requirements.txt`:
+   ```toml
+   # Remove these:
+   # black
+   # flake8
+   # isort
+   # pylint
+   ```
+
+2. **Install ruff**:
+   ```bash
+   pip install ruff
+   ```
+
+3. **Remove old config files**:
+   ```bash
+   # Delete these if they exist:
+   # .flake8
+   # setup.cfg (flake8 section)
+   # pyproject.toml [tool.black] section
+   # pyproject.toml [tool.isort] section
+   ```
+
+4. **Add ruff config** to `pyproject.toml`:
+   ```toml
+   [tool.ruff]
+   line-length = 88
+   target-version = "py39"
+
+   [tool.ruff.lint]
+   select = ["E", "F", "W", "I", "UP", "B", "C4", "SIM"]
+   ```
+
+5. **Update pre-commit hooks** (if using):
+   ```yaml
+   # .pre-commit-config.yaml
+   repos:
+     - repo: https://github.com/astral-sh/ruff-pre-commit
+       rev: v0.9.0
+       hooks:
+         - id: ruff
+         - id: ruff-format
+   ```
+
+6. **Run ruff** to check and format:
+   ```bash
+   ruff check .  # linting (replaces flake8)
+   ruff format .  # formatting (replaces black)
+   ```
+
+Ruff is 10-100x faster than black+flake8 and has better error messages.
+
 ## Quickstart
 
 To generate an Entity-Relationship Diagram (ERD) in the desired syntax, use the `generate_erd` command:
 
 ```sh
+
 python manage.py generate_erd [-h] [-a APPS] [-d DIALECT] [-o OUTPUT]
 ```
 
@@ -480,9 +584,11 @@ git add SCHEMA.md && git commit -m "Update schema documentation"
 
 ## **Supported Versions**
 
+**⚠️ Python 3.8 Deprecated**: Support for Python 3.8 has been dropped as of this release. Please upgrade to Python 3.9 or later.
+
 This project is tested against the following versions:
 
-- **Python**: `3.8, 3.9, 3.10, 3.11, 3.12`
+- **Python**: `3.9, 3.10, 3.11, 3.12, 3.13`
 - **Django**: Latest compatible version based on `tox` dependencies
 
 Ensure you have one of the supported Python versions installed before running tests. You can check your Python version with:
@@ -491,3 +597,44 @@ python --version
 ```
 
 For testing, tox will automatically create isolated environments for each supported Python version.
+
+## **Migration Guide: From Black/flake8 to Ruff**
+
+If you were using Black and flake8 for linting and formatting, here's how to switch to Ruff:
+
+1. **Remove old tools from your project:**
+   ```bash
+   # Remove from pyproject.toml or requirements files
+   # black, flake8, isort, etc.
+   ```
+
+2. **Remove old configuration files:**
+   ```bash
+   rm .black .flake8 setup.cfg pyproject.toml#tool.black pyproject.toml#tool.flake8
+   ```
+
+3. **Install Ruff:**
+   ```bash
+   uv pip install ruff
+   ```
+
+4. **Update pre-commit hooks** (if using pre-commit):
+   ```yaml
+   # Replace black/flake8 hooks with:
+   - repo: https://github.com/astral-sh/ruff-pre-commit
+     rev: v0.9.0
+     hooks:
+       - id: ruff
+         args: [--fix]
+       - id: ruff-format
+   ```
+
+5. **Run Ruff to fix issues:**
+   ```bash
+   ruff check --fix .
+   ruff format .
+   ```
+
+Ruff is ~10-100x faster than Black+flake8 and handles both linting and formatting in a single tool.
+
+

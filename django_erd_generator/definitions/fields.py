@@ -6,8 +6,10 @@ It handles field type mapping, GIS field support, relationship detection, and fo
 field information according to different diagramming tool requirements.
 """
 
+import logging
 import re
-from django.db import models, connection
+
+from django.db import connection, models
 
 from django_erd_generator.contrib.dialects import (
     FIELD_PATTERN_LOOKUP,
@@ -15,11 +17,13 @@ from django_erd_generator.contrib.dialects import (
     Dialect,
 )
 from django_erd_generator.contrib.gis_fields import (
-    is_gis_field,
     get_gis_field_type,
+    is_gis_field,
 )
 from django_erd_generator.definitions.base import BaseArray, BaseDefinition
 from django_erd_generator.definitions.relationships import Relationship
+
+logger = logging.getLogger(__name__)
 
 
 class FieldDefinition(BaseDefinition):
@@ -116,14 +120,19 @@ class FieldDefinition(BaseDefinition):
         pattern = r"(\w+)\(([^)]+)\)"
         data_type = field.cast_db_type(connection)
         if data_type:
+            # Normalize varchar to text for consistency
+            if data_type.startswith("varchar"):
+                logger.warning("converting varchar to text: %s", data_type)
+                data_type = "text"
             matches = re.findall(pattern, data_type)
             args = None
             if matches:
                 data_type, args = matches[0]
             if dialect is Dialect.MERMAID:
-                # NOTE: MermaidJS erDiagram does not currently support spaces in either the field name,
-                # or the data type. It incorrectly attempts to parse it as a comment.
-                # More information: https://github.com/mermaid-js/mermaid/issues/1546
+                # NOTE: MermaidJS erDiagram does not currently support spaces in either
+                # the field name or the data type. It incorrectly attempts to parse
+                # it as a comment. More information:
+                # https://github.com/mermaid-js/mermaid/issues/1546
                 data_type = data_type.replace(" ", "_")
             return {
                 "data_type": data_type.lower(),

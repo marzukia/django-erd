@@ -3,11 +3,12 @@ Test cases for data dictionary functionality in Django ERD Generator.
 """
 
 from unittest import TestCase
-from django_erd_generator.utils.data_dictionary import DataDictionary
+
 from django_erd_generator.contrib.dialects import Dialect
 from django_erd_generator.definitions.models import ModelDefinition
-from django_erd_generator.definitions.fields import FieldDefinition
-from .models import Customer, Product, Order, Region, TaggedItem
+from django_erd_generator.utils.data_dictionary import DataDictionary
+
+from .models import Customer, Order, Product, Region, TaggedItem
 
 
 class DataDictionaryTestCase(TestCase):

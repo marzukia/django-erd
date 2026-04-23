@@ -11,41 +11,50 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.8, 3.9, "3.10", 3.11, 3.12]
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
+      - name: Install uv
+        # pinned to v5 for reproducible ci - stable API, no breaking changes since v3
+        uses: astral-sh/setup-uv@v5
 
-      - name: Install dependencies
+      - name: Set up Python ${{ matrix.python-version }}
+        run: uv python install ${{ matrix.python-version }}
+
+      - name: Install GDAL
         run: |
-          python -m pip install --upgrade pip
-          pip install -e .
-          pip install pytest pytest-django
+          sudo apt-get update
+          sudo apt-get install -y gdal-bin libgdal-dev
+
+      - name: Sync dependencies and install project
+        run: uv sync --all-extras --dev
+      - name: Install Python GDAL bindings
+        run: uv pip install gdal==$(gdal-config --version)
 
       - name: Run tests
-        run: |
-          python -m pytest tests/ -v
+        run: uv run pytest tests/ -v
 
   lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install uv
+        # pinned to v5 for reproducible ci - check astral-sh/setup-uv releases for breaking changes
+        uses: astral-sh/setup-uv@v5
+
       - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.11"
+        run: uv python install 3.12
 
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install ruff
+        run: uv sync --dev
 
       - name: Lint with ruff
         run: |
-          ruff check .
+          uv run ruff check .
+
+      - name: Format with ruff
+        run: |
+          uv run ruff format --check .

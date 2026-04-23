@@ -8,6 +8,10 @@ different diagramming tools.
 """
 
 from typing import Union
+
+import django.apps
+from django.db import models
+
 from django_erd_generator.contrib.dialects import (
     MODEL_PATTERN_LOOKUP,
     OUTPUT_PATTERN_LOOKUP,
@@ -16,8 +20,6 @@ from django_erd_generator.contrib.dialects import (
 from django_erd_generator.definitions.base import BaseArray, BaseDefinition
 from django_erd_generator.definitions.fields import FieldArray, FieldDefinition
 from django_erd_generator.definitions.relationships import RelationshipArray
-from django.db import models
-import django.apps as d
 
 
 class ModelDefinition(BaseDefinition):
@@ -101,9 +103,9 @@ class ModelDefinition(BaseDefinition):
         """
         Extract and process relationship definitions from the Django model.
 
-        Processes all model fields to identify relationships (ForeignKey, ManyToMany, etc.)
-        and creates relationship definitions. Excludes one_to_many relationships to avoid
-        duplication with many_to_one relationships.
+        Processes all model fields to identify relationships
+        (ForeignKey, ManyToMany, etc.) and creates relationship definitions.
+        Excludes one_to_many relationships to avoid duplication with many_to_one.
 
         Args:
             django_model: Django model to extract relationships from
@@ -169,7 +171,7 @@ class ModelArray(BaseArray):
         _dialect = Dialect(dialect)
         valid = cls(dialect=_dialect)
 
-        models = [i for i in d.apps.get_models()]
+        models = list(django.apps.apps.get_models())
         for model in models:
             if not valid_apps or (model._meta.app_label in valid_apps):
                 valid.append(ModelDefinition(model, dialect=_dialect))
@@ -192,10 +194,12 @@ class ModelArray(BaseArray):
         models.sort(key=lambda x: (len(x.relationships), x.name))
         for model in models:
             for relationship in model.relationships:
-                if relationship.to_string() not in valid:
-                    if relationship.inverse().to_string() not in valid:
-                        valid.append(relationship.to_string())
-                        unique.append(relationship)
+                if (
+                    relationship.to_string() not in valid
+                    and relationship.inverse().to_string() not in valid
+                ):
+                    valid.append(relationship.to_string())
+                    unique.append(relationship)
         return unique
 
     def to_string(self) -> str:

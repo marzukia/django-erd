@@ -8,6 +8,7 @@ maintaining up-to-date schema information.
 """
 
 from django.core.management.base import BaseCommand
+
 from django_erd_generator.utils.data_dictionary import DataDictionary
 
 
