@@ -6,6 +6,7 @@ It handles field type mapping, GIS field support, relationship detection, and fo
 field information according to different diagramming tool requirements.
 """
 
+import logging
 import re
 
 from django.db import connection, models
@@ -21,6 +22,8 @@ from django_erd_generator.contrib.gis_fields import (
 )
 from django_erd_generator.definitions.base import BaseArray, BaseDefinition
 from django_erd_generator.definitions.relationships import Relationship
+
+logger = logging.getLogger(__name__)
 
 
 class FieldDefinition(BaseDefinition):
@@ -119,6 +122,7 @@ class FieldDefinition(BaseDefinition):
         if data_type:
             # Normalize varchar to text for consistency
             if data_type.startswith("varchar"):
+                logger.debug("converting varchar to text: %s", data_type)
                 data_type = "text"
             matches = re.findall(pattern, data_type)
             args = None

@@ -1,6 +1,5 @@
 - [ ] Rename aliased import import django.apps as d to django.apps or apps for clarity
 - [ ] Add warning log when varchar→text conversion happens in fields.py
-- [ ] Investigate performance regression in test_model_array_creation_performance (13s vs expected 4-5s) - don't just bump threshold
 - [ ] Update outdated comment in test_null_blank_options test
 - [ ] Standardize import blank line consistency across all files
 - [ ] Document what dev extras include in pyproject.toml
