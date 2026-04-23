@@ -53,6 +53,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 
 # Or with pip
 pip install uv
+# For security, verify checksum from https://astral.sh/uv/checksums after installation
 ```
 
 ### Setting up the environment
@@ -536,4 +537,44 @@ python --version
 ```
 
 For testing, tox will automatically create isolated environments for each supported Python version.
+
+## **Migration Guide: From Black/flake8 to Ruff**
+
+If you were using Black and flake8 for linting and formatting, here's how to switch to Ruff:
+
+1. **Remove old tools from your project:**
+   ```bash
+   # Remove from pyproject.toml or requirements files
+   # black, flake8, isort, etc.
+   ```
+
+2. **Remove old configuration files:**
+   ```bash
+   rm .black .flake8 setup.cfg pyproject.toml#tool.black pyproject.toml#tool.flake8
+   ```
+
+3. **Install Ruff:**
+   ```bash
+   uv pip install ruff
+   ```
+
+4. **Update pre-commit hooks** (if using pre-commit):
+   ```yaml
+   # Replace black/flake8 hooks with:
+   - repo: https://github.com/astral-sh/ruff-pre-commit
+     rev: v0.9.0
+     hooks:
+       - id: ruff
+         args: [--fix]
+       - id: ruff-format
+   ```
+
+5. **Run Ruff to fix issues:**
+   ```bash
+   ruff check --fix .
+   ruff format .
+   ```
+
+Ruff is ~10-100x faster than Black+flake8 and handles both linting and formatting in a single tool.
+
 

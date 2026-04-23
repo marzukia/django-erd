@@ -15,3 +15,14 @@
 - [x] Change ruff --fix to ruff check only - auto-fixes in pre-commit are dangerous before review
 - [x] Investigate performance regression in test_model_array_creation_performance (13s vs expected 4-5s) - don't just bump threshold
 - [x] Standardize import blank line consistency across all files
+- [x] Add migration guide for users moving from black/flake8→ruff
+- [x] Rename aliased import import django.apps as d to django.apps or apps for clarity
+- [x] Add warning log when varchar→text conversion happens in fields.py
+- [x] Update outdated comment in test_null_blank_options test
+- [x] Document what dev extras include in pyproject.toml
+- [x] Replace curl | sh uv install with checksum-verified download in README
+- [x] Verify no dependency version conflicts or security issues in uv.lock changes
+- [x] Fix comment wrapping inconsistencies (e.g., mermaid.js link split across 3 lines)
+- [x] Standardize import sorting order across all files
+- [x] Review model.name = model_name in data_dictionary.py line 138 - potential field name conflict
+- [x] Add tests for varchar→text normalization path
