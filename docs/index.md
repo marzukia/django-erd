@@ -1,6 +1,6 @@
 # Django ERD Generator
 
-![logo](https://github.com/marzukia/django-erd/blob/main/docs/img/logo.png?raw=true)
+![Logo](img/logo.svg)
 
 Django ERD Generator is a comprehensive command-line tool designed to generate Entity-Relationship Diagrams (ERDs) and data dictionaries from Django models. It supports multiple output formats, making it easy to visualise database relationships in different diagramming tools and create detailed documentation.
 

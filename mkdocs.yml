@@ -4,37 +4,62 @@ site_url: https://django-erd.mrzk.io
 repo_url: https://github.com/marzukia/django-erd
 repo_name: marzukia/django-erd
 
+# Social metadata
+copyright: Copyright © 2024 Marzukia
+
 theme:
   name: material
+  logo: img/logo.svg
+  favicon: img/logo.svg
   palette:
     - scheme: default
       primary: indigo
+      accent: indigo
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
     - scheme: slate
       primary: indigo
+      accent: indigo
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
+  font:
+    text: Inter
+    code: JetBrains Mono
   features:
     - navigation.tabs
+    - navigation.tabs.sticky
     - navigation.sections
+    - navigation.expand
+    - navigation.indexes
     - navigation.top
+    - navigation.footer
+    - toc.integrate
+    - toc.follow
     - search.highlight
     - search.share
+    - search.suggest
     - content.code.copy
+    - content.code.annotate
+    - content.action.edit
 
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
   - admonition
   - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - toc:
       permalink: true
+      toc_depth: 3
 
 nav:
   - Home: index.md
@@ -51,8 +76,17 @@ nav:
 
 plugins:
   - search
+  - social:
+      cards_layout_options:
+        background_color: #4f46e5
+        color: white
 
 extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/marzukia/django-erd
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/django-erd/
+  analytics:
+    provider: google
+    property: G-XXXXXXXXXX
