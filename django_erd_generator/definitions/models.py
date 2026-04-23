@@ -9,7 +9,7 @@ different diagramming tools.
 
 from typing import Union
 
-import django.apps as d
+import django.apps
 from django.db import models
 
 from django_erd_generator.contrib.dialects import (
@@ -171,7 +171,7 @@ class ModelArray(BaseArray):
         _dialect = Dialect(dialect)
         valid = cls(dialect=_dialect)
 
-        models = list(d.apps.get_models())
+        models = list(django.apps.get_models())
         for model in models:
             if not valid_apps or (model._meta.app_label in valid_apps):
                 valid.append(ModelDefinition(model, dialect=_dialect))
