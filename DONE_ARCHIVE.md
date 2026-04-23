@@ -1,0 +1,51 @@
+- [x] Create new branch for uv/ruff migration
+- [x] Remove black and flake8 dependencies from pyproject.toml
+- [x] Add ruff configuration to pyproject.toml
+- [x] Add uv and ruff dependencies to pyproject.toml
+- [x] Remove .flake8 configuration file
+- [x] Update pre-commit hooks to use ruff instead of black/flake8
+- [x] Update documentation/README with new tooling
+- [x] Update .python-version if needed
+- [x] Update CI workflow to use ruff
+- [x] Run ruff to check for issues
+- [x] Fix GDAL install step - gdal-config runs before GDAL is installed, will fail. Need to install gdal-bin first, then python3 -m pip install gdal==$(gdal-config --version)
+- [x] Document rationale for pinning astral-sh/setup-uv@v5 version
+- [x] Add --exit-zero flag to ruff to show all issues instead of failing on first error
+- [x] Add deprecation notice in changelog/readme for dropping 3.8 support
+- [x] Change ruff --fix to ruff check only - auto-fixes in pre-commit are dangerous before review
+- [x] Investigate performance regression in test_model_array_creation_performance (13s vs expected 4-5s) - don't just bump threshold
+- [x] Standardize import blank line consistency across all files
+- [x] Add migration guide for users moving from black/flake8→ruff
+- [x] Rename aliased import import django.apps as d to django.apps or apps for clarity
+- [x] Add warning log when varchar→text conversion happens in fields.py
+- [x] Update outdated comment in test_null_blank_options test
+- [x] Document what dev extras include in pyproject.toml
+- [x] Replace curl | sh uv install with checksum-verified download in README
+- [x] Verify no dependency version conflicts or security issues in uv.lock changes
+- [x] Fix comment wrapping inconsistencies (e.g., mermaid.js link split across 3 lines)
+- [x] Standardize import sorting order across all files
+- [x] Review model.name = model_name in data_dictionary.py line 138 - potential field name conflict
+- [x] Add tests for varchar→text normalization path
+- [x] Replace curl | sh with verified download method in README
+- [x] GDAL install step runs `gdal-config` before GDAL is installed - needs `gdal-bin` installed first
+- [x] uv setup step uses `astral-sh/setup-uv@v5` - pinned version could break, should document version pin rationale
+- [x] `django.apps as d` - aliased import `d` is unclear, should be `django.apps` or `apps`
+- [x] `test_null_blank_options` comment says "should have both fields" but expects 3 fields - outdated comment
+- [x] test imports reordered but some files have blank line inconsistencies
+- [x] removed `.flake8` but no mention in docs that ruff is now the single source of truth
+- [x] ruff-format applied inconsistently - some comments wrapped at weird points
+- [x] `data_dictionary.py` line 138: `model.name = model_name` - might conflict with actual model field name
+- [x] dropped 3.8 but no deprecation notice in changelog/readme for users still on 3.8
+- [x] `ruff --fix` auto-fixes in pre-commit is dangerous - should be `ruff check` only
+- [x] no `--exit-zero` on ruff - pre-commit will fail on first lint error instead of showing all issues
+- [x] performance test threshold relaxed from 1s→15s - indicates real performance regression
+- [x] no migration guide for users moving from black/flake8→ruff
+- [x] import sorting moved `from django.db import models` to different positions in different files
+- [x] README shows `curl ... | sh` for uv install - piping curl to shell is risky
+- [x] varchar→text normalization in fields.py is silent - no warning logged when conversion happens
+- [x] README "Development Setup" shows `uv pip install -e ".[dev]"` but dev extras aren't clearly documented
+- [x] `uv.lock` has 529 lines changed - should verify no dependency version conflicts or security issues
+- [x] `conftest.py` settings.configure guard has excessive indentation (16 spaces) from ruff-format
+- [x] no tests for the varchar→text normalization path
+- [x] Fix typo in README.md line 48: 'seperated' → 'separated'
+- [x] Archive or clear DONE.md (49 completed items)
