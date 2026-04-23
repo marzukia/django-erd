@@ -122,7 +122,7 @@ class FieldDefinition(BaseDefinition):
         if data_type:
             # Normalize varchar to text for consistency
             if data_type.startswith("varchar"):
-                logger.debug("converting varchar to text: %s", data_type)
+                logger.warning("converting varchar to text: %s", data_type)
                 data_type = "text"
             matches = re.findall(pattern, data_type)
             args = None
