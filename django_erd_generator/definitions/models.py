@@ -103,9 +103,9 @@ class ModelDefinition(BaseDefinition):
         """
         Extract and process relationship definitions from the Django model.
 
-        Processes all model fields to identify relationships (ForeignKey, ManyToMany, etc.)
-        and creates relationship definitions. Excludes one_to_many relationships to avoid
-        duplication with many_to_one relationships.
+        Processes all model fields to identify relationships
+        (ForeignKey, ManyToMany, etc.) and creates relationship definitions.
+        Excludes one_to_many relationships to avoid duplication with many_to_one.
 
         Args:
             django_model: Django model to extract relationships from
@@ -171,7 +171,7 @@ class ModelArray(BaseArray):
         _dialect = Dialect(dialect)
         valid = cls(dialect=_dialect)
 
-        models = list(django.apps.get_models())
+        models = list(django.apps.apps.get_models())
         for model in models:
             if not valid_apps or (model._meta.app_label in valid_apps):
                 valid.append(ModelDefinition(model, dialect=_dialect))
