@@ -1,7 +1,6 @@
 - [ ] Rename aliased import import django.apps as d to django.apps or apps for clarity
 - [ ] Add warning log when varchar→text conversion happens in fields.py
 - [ ] Update outdated comment in test_null_blank_options test
-- [ ] Standardize import blank line consistency across all files
 - [ ] Document what dev extras include in pyproject.toml
 - [ ] Add migration guide for users moving from black/flake8→ruff
 - [ ] Replace curl | sh uv install with checksum-verified download in README

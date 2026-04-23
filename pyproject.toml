@@ -35,15 +35,16 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [dependency-groups]
+# development dependencies - install with: uv sync --dev
 dev = [
-    "django>=4.2.25",
-    "tox>=4.24.1",
-    "pytest>=8.3.4",
-    "pytest-django>=4.10.0",
-    "ipython>=8.12.3",
-    "ruff>=0.9.0",
-    "uv>=0.6.0",
-    "pre-commit>=4.1.0",
+    "django>=4.2.25",          # django framework for testing
+    "tox>=4.24.1",             # cross-version testing
+    "pytest>=8.3.4",           # test runner
+    "pytest-django>=4.10.0",   # django test integration
+    "ipython>=8.12.3",         # interactive shell
+    "ruff>=0.9.0",             # linting and formatting
+    "uv>=0.6.0",               # python package manager
+    "pre-commit>=4.1.0",       # git hooks
 ]
 
 [tool.ruff]
