@@ -14,9 +14,10 @@ Key Features:
 - Markdown table formatting for consistent presentation
 """
 
-from collections import defaultdict
 import os
+from collections import defaultdict
 from typing import Dict, List, Optional
+
 from django_erd_generator.contrib.dialects import Dialect
 from django_erd_generator.contrib.markdown import Table
 from django_erd_generator.definitions.models import ModelArray, ModelDefinition
@@ -137,7 +138,7 @@ class DataDictionary:
         apps_map = defaultdict(list)
         for model_name, model in data_dictionary.items():
             app_label = model.django_model._meta.app_label
-            setattr(model, "name", model_name)
+            model.name = model_name
             apps_map[app_label].append(model)
         return apps_map
 

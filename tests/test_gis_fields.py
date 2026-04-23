@@ -7,14 +7,14 @@ from unittest import TestCase
 
 from django_erd_generator.contrib.dialects import Dialect
 from django_erd_generator.contrib.gis_fields import (
-    is_gis_field,
     get_gis_field_type,
+    is_gis_field,
 )
 from django_erd_generator.definitions.fields import FieldDefinition
 
 # Import test models
 try:
-    from .gis_models import TestGISModel, TestLocationModel, GIS_AVAILABLE
+    from .gis_models import GIS_AVAILABLE, TestGISModel, TestLocationModel
 except ImportError:
     GIS_AVAILABLE = False
 

@@ -40,6 +40,49 @@ INSTALLED_APPS = [
 ]
 ```
 
+
+## Development Setup
+
+This project uses `uv` for dependency management and `ruff` for linting and formatting.
+
+### Installing uv
+
+```bash
+# Install uv
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Or with pip
+pip install uv
+```
+
+### Setting up the environment
+
+```bash
+# Create virtual environment with uv
+uv venv
+
+# Activate the virtual environment
+source .venv/bin/activate  # On Unix/macOS
+# or
+.venv\Scripts\activate  # On Windows
+
+# Install dependencies
+uv pip install -e ".[dev]"
+```
+
+### Running linter and formatter
+
+```bash
+# Run ruff linting
+ruff check .
+
+# Run ruff formatting
+ruff format .
+
+# Run tests
+pytest
+```
+
 ## Quickstart
 
 To generate an Entity-Relationship Diagram (ERD) in the desired syntax, use the `generate_erd` command:

@@ -6,14 +6,14 @@ covering edge cases, error handling, performance, and integration scenarios.
 """
 
 from unittest import TestCase
+
 from django.db import models
+
 from django_erd_generator.contrib.dialects import Dialect
-from django_erd_generator.definitions.fields import FieldDefinition, Relationship
 from django_erd_generator.definitions.models import ModelArray, ModelDefinition
-from django_erd_generator.definitions.relationships import RelationshipArray
 from django_erd_generator.utils.data_dictionary import DataDictionary
-from .models import Customer, Order, Product, Region
-from .utils import ModelArray as TestModelArray
+
+from .models import Customer
 
 
 class EdgeCaseFieldTests(TestCase):
@@ -54,6 +54,7 @@ class EdgeCaseFieldTests(TestCase):
         """Test fields with null and blank options."""
 
         class TestNullBlankModel(models.Model):
+            id = models.AutoField(primary_key=True)
             optional_field = models.CharField(max_length=100, null=True, blank=True)
             required_field = models.CharField(max_length=100)
 
@@ -63,8 +64,8 @@ class EdgeCaseFieldTests(TestCase):
         model_def = ModelDefinition(TestNullBlankModel, dialect=Dialect.MERMAID)
         fields = model_def.fields
 
-        # Should have both fields
-        self.assertEqual(len(fields), 2)
+        # Should have 3 fields (id pk + 2 charfields)
+        self.assertEqual(len(fields), 3)
 
         # Test that field definitions are created properly
         field_names = [f.col_name for f in fields]
@@ -260,7 +261,7 @@ class IntegrationTests(TestCase):
             # This would test app filtering if implemented
             model_arr = ModelArray.get_models("tests", dialect=Dialect.MERMAID)
             self.assertIsNotNone(model_arr)
-        except Exception as e:
+        except Exception:
             # If app filtering isn't implemented, that's okay
             pass
 
@@ -287,7 +288,7 @@ class CustomFieldTests(TestCase):
             model_def = ModelDefinition(TestCustomFieldModel, dialect=Dialect.MERMAID)
             result = model_def.to_string()
             self.assertIsNotNone(result)
-        except Exception as e:
+        except Exception:
             # Custom fields might not be fully supported, but shouldn't crash
             pass
 

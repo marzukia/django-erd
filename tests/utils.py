@@ -1,7 +1,10 @@
 from django_erd_generator.definitions.models import (
     ModelArray as BaseModelArray,
+)
+from django_erd_generator.definitions.models import (
     ModelDefinition,
 )
+
 from .models import Customer, Order, Product, Region
 
 

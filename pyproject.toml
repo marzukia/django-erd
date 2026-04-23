@@ -3,7 +3,7 @@ name = "django-erd-generator"
 version = "0.1.7"
 description = "CLI tool to generate ER diagrams from Django models for Mermaid.js, PlantUML, and dbdiagram.io"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 license = "MIT"
 authors = [{ name = "Andryo Marzuki", email = "andryo@mrzk.io" }]
 keywords = ["django", "ERD", "ER diagram", "entity relationship", "mermaid", "PlantUML", "dbdiagram", "visualization", "data dictionary", "schema documentation", "model documentation", "markdown"]
@@ -42,6 +42,7 @@ dev = [
     "pytest-django>=4.10.0",
     "ipython>=8.12.3",
     "ruff>=0.9.0",
+    "uv>=0.6.0",
     "pre-commit>=4.1.0",
 ]
 

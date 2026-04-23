@@ -1,0 +1,10 @@
+- [x] Create new branch for uv/ruff migration
+- [x] Remove black and flake8 dependencies from pyproject.toml
+- [x] Add ruff configuration to pyproject.toml
+- [x] Add uv and ruff dependencies to pyproject.toml
+- [x] Remove .flake8 configuration file
+- [x] Update pre-commit hooks to use ruff instead of black/flake8
+- [x] Update documentation/README with new tooling
+- [x] Update .python-version if needed
+- [x] Update CI workflow to use ruff
+- [x] Run ruff to check for issues

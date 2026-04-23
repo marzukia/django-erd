@@ -6,10 +6,10 @@ in various formats (Mermaid, PlantUML, dbdiagram.io) suitable for
 different diagramming tools and documentation systems.
 """
 
+from django.core.management.base import BaseCommand, CommandError
+
 from django_erd_generator.contrib.dialects import Dialect
 from django_erd_generator.definitions.models import ModelArray
-
-from django.core.management.base import BaseCommand, CommandError
 
 
 class Command(BaseCommand):

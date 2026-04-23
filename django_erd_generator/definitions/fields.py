@@ -7,7 +7,8 @@ field information according to different diagramming tool requirements.
 """
 
 import re
-from django.db import models, connection
+
+from django.db import connection, models
 
 from django_erd_generator.contrib.dialects import (
     FIELD_PATTERN_LOOKUP,
@@ -15,8 +16,8 @@ from django_erd_generator.contrib.dialects import (
     Dialect,
 )
 from django_erd_generator.contrib.gis_fields import (
-    is_gis_field,
     get_gis_field_type,
+    is_gis_field,
 )
 from django_erd_generator.definitions.base import BaseArray, BaseDefinition
 from django_erd_generator.definitions.relationships import Relationship
