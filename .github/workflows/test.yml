@@ -28,8 +28,13 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y gdal-bin libgdal-dev
 
+      - name: Create virtual environment
+        run: uv venv
+
       - name: Install Python GDAL bindings
-        run: uv pip install --system gdal==$(gdal-config --version)
+        run: |
+          source .venv/bin/activate
+          uv pip install gdal==$(gdal-config --version)
 
       - name: Sync dependencies and install project
         run: uv sync --all-extras --dev
