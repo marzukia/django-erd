@@ -117,14 +117,18 @@ class FieldDefinition(BaseDefinition):
         pattern = r"(\w+)\(([^)]+)\)"
         data_type = field.cast_db_type(connection)
         if data_type:
+            # Normalize varchar to text for consistency
+            if data_type.startswith("varchar"):
+                data_type = "text"
             matches = re.findall(pattern, data_type)
             args = None
             if matches:
                 data_type, args = matches[0]
             if dialect is Dialect.MERMAID:
-                # NOTE: MermaidJS erDiagram does not currently support spaces in either the field name,
-                # or the data type. It incorrectly attempts to parse it as a comment.
-                # More information: https://github.com/mermaid-js/mermaid/issues/1546
+                # NOTE: MermaidJS erDiagram does not currently support spaces in either
+                # the field name or the data type. It incorrectly attempts to parse
+                # it as a comment. More information:
+                # https://github.com/mermaid-js/mermaid/issues/1546
                 data_type = data_type.replace(" ", "_")
             return {
                 "data_type": data_type.lower(),

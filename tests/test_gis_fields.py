@@ -125,7 +125,7 @@ class GISModelGenerationTestCase(TestCase):
 
         # Check that the model structure is correct
         self.assertIn("TestLocationModel", result)
-        self.assertIn("varchar name", result)
+        self.assertIn("text name", result)
         self.assertIn("geometry_point coordinates", result)
         self.assertIn("geometry_polygon coverage_area", result)
 
@@ -138,7 +138,7 @@ class GISModelGenerationTestCase(TestCase):
 
         # Check that the model structure is correct
         self.assertIn("entity TestLocationModel", result)
-        self.assertIn("name: varchar", result)
+        self.assertIn("name: text", result)
         self.assertIn("coordinates: POINT", result)
         self.assertIn("coverage_area: POLYGON", result)
 
@@ -151,6 +151,6 @@ class GISModelGenerationTestCase(TestCase):
 
         # Check that the model structure is correct
         self.assertIn("Table TestLocationModel", result)
-        self.assertIn('name "varchar"', result)
+        self.assertIn('name "text"', result)
         self.assertIn('coordinates "geometry(POINT)"', result)
         self.assertIn('coverage_area "geometry(POLYGON)"', result)
