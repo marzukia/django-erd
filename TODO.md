@@ -1,6 +1,5 @@
 - [ ] Add deprecation notice in changelog/readme for dropping 3.8 support
 - [ ] Change ruff --fix to ruff check only - auto-fixes in pre-commit are dangerous before review
-- [ ] Add --exit-zero flag to ruff to show all issues instead of failing on first error
 - [ ] Rename aliased import import django.apps as d to django.apps or apps for clarity
 - [ ] Add warning log when varchar→text conversion happens in fields.py
 - [ ] Review excessive indentation (16 spaces) in conftest.py after ruff-format
