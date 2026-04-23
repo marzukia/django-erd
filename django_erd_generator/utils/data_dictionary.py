@@ -16,7 +16,7 @@ Key Features:
 
 import os
 from collections import defaultdict
-from typing import Dict, List, Optional
+from typing import Optional
 
 from django_erd_generator.contrib.dialects import Dialect
 from django_erd_generator.contrib.markdown import Table
@@ -96,8 +96,8 @@ class DataDictionary:
 
     @classmethod
     def get_data_dictionary(
-        cls, apps: Optional[List[str]] = None
-    ) -> Dict[str, ModelDefinition]:
+        cls, apps: Optional[list[str]] = None
+    ) -> dict[str, ModelDefinition]:
         """
         Extract and organize model definitions for data dictionary generation.
 
@@ -120,8 +120,8 @@ class DataDictionary:
 
     @classmethod
     def get_apps_map(
-        cls, apps: Optional[List[str]] = None
-    ) -> Dict[str, List[ModelDefinition]]:
+        cls, apps: Optional[list[str]] = None
+    ) -> dict[str, list[ModelDefinition]]:
         """
         Organize models by Django app for structured documentation.
 
@@ -197,7 +197,7 @@ class DataDictionary:
         )
 
     @classmethod
-    def generate_data_dictionary(cls, apps: Optional[List[str]] = None) -> str:
+    def generate_data_dictionary(cls, apps: Optional[list[str]] = None) -> str:
         """
         Generate complete data dictionary documentation in Markdown format.
 
@@ -213,7 +213,7 @@ class DataDictionary:
         """
         apps_map = cls.get_apps_map(apps=apps)
 
-        rendered_apps: List[str] = []
+        rendered_apps: list[str] = []
 
         project_name = "Django Project"
         settings_module = os.environ.get("DJANGO_SETTINGS_MODULE")
@@ -226,7 +226,7 @@ class DataDictionary:
 
             apps_map[app] = sorted(arr, key=lambda x: x.django_model.__name__)
 
-            rendered_models: List[str] = []
+            rendered_models: list[str] = []
             for model in arr:
                 model_name = model.django_model.__name__
                 toc.append(f"    - [{model_name}](#{model_name})")
@@ -248,7 +248,7 @@ class DataDictionary:
     def save_data_dictionary(
         cls,
         path: str,
-        apps: Optional[List[str]] = None,
+        apps: Optional[list[str]] = None,
     ) -> None:
         """
         Generate and save data dictionary documentation to a file.
