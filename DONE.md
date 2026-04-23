@@ -9,3 +9,4 @@
 - [x] Update CI workflow to use ruff
 - [x] Run ruff to check for issues
 - [x] Fix GDAL install step - gdal-config runs before GDAL is installed, will fail. Need to install gdal-bin first, then python3 -m pip install gdal==$(gdal-config --version)
+- [x] Document rationale for pinning astral-sh/setup-uv@v5 version

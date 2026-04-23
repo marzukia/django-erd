@@ -1,5 +1,4 @@
 - [ ] Add deprecation notice in changelog/readme for dropping 3.8 support
-- [ ] Document rationale for pinning astral-sh/setup-uv@v5 version
 - [ ] Change ruff --fix to ruff check only - auto-fixes in pre-commit are dangerous before review
 - [ ] Add --exit-zero flag to ruff to show all issues instead of failing on first error
 - [ ] Rename aliased import import django.apps as d to django.apps or apps for clarity

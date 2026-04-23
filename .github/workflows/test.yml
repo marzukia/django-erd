@@ -25,6 +25,7 @@ jobs:
         run: uv pip install gdal==$(gdal-config --version)
 
       - name: Install uv
+        # pinned to v5 for reproducible ci - check astral-sh/setup-uv releases for breaking changes
         uses: astral-sh/setup-uv@v5
 
       - name: Set up Python ${{ matrix.python-version }}
@@ -44,6 +45,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install uv
+        # pinned to v5 for reproducible ci - check astral-sh/setup-uv releases for breaking changes
         uses: astral-sh/setup-uv@v5
 
       - name: Set up Python
