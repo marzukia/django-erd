@@ -30,3 +30,8 @@
 - [x] GDAL install step runs `gdal-config` before GDAL is installed - needs `gdal-bin` installed first
 - [x] uv setup step uses `astral-sh/setup-uv@v5` - pinned version could break, should document version pin rationale
 - [x] `django.apps as d` - aliased import `d` is unclear, should be `django.apps` or `apps`
+- [x] `test_null_blank_options` comment says "should have both fields" but expects 3 fields - outdated comment
+- [x] test imports reordered but some files have blank line inconsistencies
+- [x] removed `.flake8` but no mention in docs that ruff is now the single source of truth
+- [x] ruff-format applied inconsistently - some comments wrapped at weird points
+- [x] `data_dictionary.py` line 138: `model.name = model_name` - might conflict with actual model field name

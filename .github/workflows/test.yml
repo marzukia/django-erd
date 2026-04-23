@@ -30,6 +30,9 @@ jobs:
       - name: Install Python GDAL bindings
         run: uv pip install gdal==$(gdal-config --version)
 
+      - name: Create virtual environment
+        run: uv venv
+
       - name: Sync dependencies
         run: uv sync --all-extras --dev
 
