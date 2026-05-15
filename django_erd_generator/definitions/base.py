@@ -7,6 +7,7 @@ management with dialect-specific formatting.
 """
 
 from django_erd_generator.contrib.dialects import Dialect
+from django_erd_generator.definitions import DEFAULT_DIALECT
 
 
 class BaseArray(list):
@@ -21,7 +22,7 @@ class BaseArray(list):
         dialect: The ERD dialect for output formatting
     """
 
-    def __init__(self, dialect: Dialect = Dialect.MERMAID):
+    def __init__(self, dialect: Dialect = DEFAULT_DIALECT):
         """
         Initialize the array with a specific dialect.
 

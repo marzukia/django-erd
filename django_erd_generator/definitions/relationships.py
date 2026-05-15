@@ -13,7 +13,36 @@ from django_erd_generator.contrib.dialects import (
     REL_PATTERN_LOOKUP,
     Dialect,
 )
+from django_erd_generator.definitions import DEFAULT_DIALECT
 from django_erd_generator.definitions.base import BaseArray, BaseDefinition
+
+
+def get_pk_attname(model_or_field) -> str:
+    """
+    Safely extract primary key attribute name from a model or field.
+
+    Encapsulates deep Django metadata access to create a single point of change
+    if Django's internal API evolves.
+
+    Args:
+        model_or_field: A Django model class, field instance, or RelatedManager
+
+    Returns:
+        The primary key attribute name (typically 'id')
+
+    Raises:
+        AttributeError: If the model has no accessible primary key
+    """
+    # Handle reverse relations (ManyToOneRel, OneToOneRel)
+    if hasattr(model_or_field, "related_model"):
+        model = model_or_field.related_model
+    # Handle model classes directly
+    elif hasattr(model_or_field, "_meta"):
+        model = model_or_field
+    else:
+        raise AttributeError(f"Cannot extract PK from {type(model_or_field)}")
+
+    return model._meta.pk.attname
 
 
 class Relationship(BaseDefinition):
@@ -42,7 +71,7 @@ class Relationship(BaseDefinition):
         self,
         field: models.Field = None,
         rel_code: str = None,
-        dialect: Dialect = Dialect.MERMAID,
+        dialect: Dialect = DEFAULT_DIALECT,
         from_model: str = None,
         from_field: str = None,
         to_model: str = None,
@@ -67,12 +96,12 @@ class Relationship(BaseDefinition):
         self.rel = rel_code
         if field:
             self.from_model = field.related_model.__name__
-            self.from_field = field.related_model._meta.pk.attname
+            self.from_field = get_pk_attname(field)
             self.to_model = field.model.__name__
             self.to_field = field.attname if hasattr(field, "attname") else field.name
             if self.rel in ["many_to_many", "one_to_one"]:
-                self.to_field = field.model._meta.pk.attname
-                self.from_field = field.related_model._meta.pk.attname
+                self.to_field = get_pk_attname(field.model)
+                self.from_field = get_pk_attname(field)
         else:
             self.to_model = to_model
             self.to_field = to_field

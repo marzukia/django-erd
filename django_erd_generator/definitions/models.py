@@ -17,6 +17,7 @@ from django_erd_generator.contrib.dialects import (
     OUTPUT_PATTERN_LOOKUP,
     Dialect,
 )
+from django_erd_generator.definitions import DEFAULT_DIALECT
 from django_erd_generator.definitions.base import BaseArray, BaseDefinition
 from django_erd_generator.definitions.fields import FieldDefinition
 from django_erd_generator.definitions.relationships import Relationship
@@ -44,7 +45,7 @@ class ModelDefinition(BaseDefinition):
         >>> print(model_def.to_string())
     """
 
-    def __init__(self, model: models.Model, dialect: Dialect = Dialect.MERMAID) -> None:
+    def __init__(self, model: models.Model, dialect: Dialect = DEFAULT_DIALECT) -> None:
         """
         Initialize a model definition.
 
@@ -153,7 +154,7 @@ class ModelArray(BaseArray):
     def get_models(
         cls,
         valid_apps: Union[list[str], None] = None,
-        dialect: Dialect = Dialect.MERMAID,
+        dialect: Dialect = DEFAULT_DIALECT,
     ) -> "ModelArray":
         """
         Extract and create model definitions from Django apps.

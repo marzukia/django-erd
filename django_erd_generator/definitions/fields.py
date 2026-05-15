@@ -20,6 +20,7 @@ from django_erd_generator.contrib.gis_fields import (
     get_gis_field_type,
     is_gis_field,
 )
+from django_erd_generator.definitions import DEFAULT_DIALECT
 from django_erd_generator.definitions.base import BaseArray, BaseDefinition
 from django_erd_generator.definitions.relationships import Relationship
 
@@ -48,7 +49,7 @@ class FieldDefinition(BaseDefinition):
         >>> print(field_def.to_string())
     """
 
-    def __init__(self, field: models.Field, dialect: Dialect = Dialect.MERMAID) -> None:
+    def __init__(self, field: models.Field, dialect: Dialect = DEFAULT_DIALECT) -> None:
         """
         Initialize a field definition.
 
@@ -66,7 +67,7 @@ class FieldDefinition(BaseDefinition):
     def get_relationship(
         cls,
         field: models.Field,
-        dialect: Dialect = Dialect.MERMAID,
+        dialect: Dialect = DEFAULT_DIALECT,
     ) -> Relationship:
         """
         Extract relationship information from a Django field.

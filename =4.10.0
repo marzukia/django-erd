@@ -1,0 +1,10 @@
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: django in /home/andryo/.local/lib/python3.13/site-packages (6.0.5)
+Requirement already satisfied: pytest in /home/andryo/.local/lib/python3.13/site-packages (9.0.3)
+Requirement already satisfied: pytest-django in /home/andryo/.local/lib/python3.13/site-packages (4.12.0)
+Requirement already satisfied: asgiref>=3.9.1 in /home/andryo/.local/lib/python3.13/site-packages (from django) (3.11.1)
+Requirement already satisfied: sqlparse>=0.5.0 in /home/andryo/.local/lib/python3.13/site-packages (from django) (0.5.5)
+Requirement already satisfied: iniconfig>=1.0.1 in /home/andryo/.local/lib/python3.13/site-packages (from pytest) (2.3.0)
+Requirement already satisfied: packaging>=22 in /usr/lib/python3.13/site-packages (from pytest) (24.2)
+Requirement already satisfied: pluggy<2,>=1.5 in /home/andryo/.local/lib/python3.13/site-packages (from pytest) (1.6.0)
+Requirement already satisfied: pygments>=2.7.2 in /home/andryo/.local/lib/python3.13/site-packages (from pytest) (2.20.0)
