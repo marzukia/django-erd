@@ -1,7 +1,11 @@
 from unittest import TestCase
 
 from django_erd_generator.contrib.dialects import Dialect
-from django_erd_generator.definitions.fields import FieldDefinition, Relationship
+from django_erd_generator.definitions.fields import (
+    FieldDefinition,
+    extract_relationship,
+)
+from django_erd_generator.definitions.relationships import Relationship
 
 from .models import Order, TaggedItem
 from .utils import ModelArray
@@ -33,7 +37,7 @@ class GenericForeignKeyTestCase(TestCase):
     def test_generic_foreign_key_does_not_crash(self):
         """GenericForeignKey fields (related_model=None) should be skipped, not crash."""
         content_object_field = TaggedItem._meta.get_field("content_object")
-        result = FieldDefinition.get_relationship(content_object_field)
+        result = extract_relationship(content_object_field)
         self.assertIsNone(result)
 
 

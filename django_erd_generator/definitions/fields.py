@@ -27,6 +27,83 @@ from django_erd_generator.definitions.relationships import Relationship
 logger = logging.getLogger(__name__)
 
 
+def extract_relationship(
+    field: models.Field,
+    dialect: Dialect = DEFAULT_DIALECT,
+) -> Relationship | None:
+    """
+    Extract relationship information from a Django field.
+
+    Analyzes a Django field to determine if it represents a relationship
+    (ForeignKey, ManyToMany, etc.) and creates a Relationship object if found.
+
+    Args:
+        field: Django field to analyze for relationships
+        dialect: ERD dialect for output formatting
+
+    Returns:
+        Relationship object if field is relational, None otherwise
+    """
+    rel_codes = ["one_to_many", "one_to_one", "many_to_one", "many_to_many"]
+    if hasattr(field, "is_relation"):
+        if getattr(field, "related_model", None) is None:
+            return None
+        for rel_code in rel_codes:
+            if getattr(field, rel_code, None):
+                return Relationship(field, rel_code, dialect=dialect)
+    return None
+
+
+def extract_data_type(field: models.Field, dialect: Dialect) -> dict | None:
+    """
+    Extract and format field data type information.
+
+    Determines the appropriate data type representation for a Django field
+    in the specified ERD dialect. Handles both regular Django fields and
+    GIS fields, with special formatting rules for different dialects.
+
+    Args:
+        field: Django field to analyze
+        dialect: ERD dialect for formatting requirements
+
+    Returns:
+        Dictionary with 'data_type' and 'args' keys, or None if type cannot be determined
+    """
+    # Check if it's a GIS field first
+    field_class_name = field.__class__.__name__
+    if is_gis_field(field_class_name):
+        gis_type = get_gis_field_type(field_class_name, dialect)
+        if gis_type:
+            return {
+                "data_type": gis_type,
+                "args": None,
+            }
+
+    # Handle regular fields
+    pattern = r"(\w+)\(([^)]+)\)"
+    data_type = field.cast_db_type(connection)
+    if data_type:
+        # Normalize varchar to text for consistency
+        if data_type.startswith("varchar"):
+            logger.warning("converting varchar to text: %s", data_type)
+            data_type = "text"
+        matches = re.findall(pattern, data_type)
+        args = None
+        if matches:
+            data_type, args = matches[0]
+        if dialect is Dialect.MERMAID:
+            # NOTE: MermaidJS erDiagram does not currently support spaces in either
+            # the field name or the data type. It incorrectly attempts to parse
+            # it as a comment. More information:
+            # https://github.com/mermaid-js/mermaid/issues/1546
+            data_type = data_type.replace(" ", "_")
+        return {
+            "data_type": data_type.lower(),
+            "args": args,
+        }
+    return None
+
+
 class FieldDefinition(BaseDefinition):
     """
     Represents a single Django model field for ERD generation.
@@ -62,84 +139,6 @@ class FieldDefinition(BaseDefinition):
         self.col_name = self.django_field
         self.data_type = self.django_field
         self.primary_key = self.django_field
-
-    @classmethod
-    def get_relationship(
-        cls,
-        field: models.Field,
-        dialect: Dialect = DEFAULT_DIALECT,
-    ) -> Relationship:
-        """
-        Extract relationship information from a Django field.
-
-        Analyzes a Django field to determine if it represents a relationship
-        (ForeignKey, ManyToMany, etc.) and creates a Relationship object if found.
-
-        Args:
-            field: Django field to analyze for relationships
-            dialect: ERD dialect for output formatting
-
-        Returns:
-            Relationship object if field is relational, None otherwise
-        """
-        rel_codes = ["one_to_many", "one_to_one", "many_to_one", "many_to_many"]
-        if hasattr(field, "is_relation"):
-            if getattr(field, "related_model", None) is None:
-                return None
-            for rel_code in rel_codes:
-                if getattr(field, rel_code, None):
-                    return Relationship(field, rel_code, dialect=dialect)
-        return None
-
-    @classmethod
-    def get_data_type(cls, field: models.Field, dialect: Dialect) -> dict:
-        """
-        Extract and format field data type information.
-
-        Determines the appropriate data type representation for a Django field
-        in the specified ERD dialect. Handles both regular Django fields and
-        GIS fields, with special formatting rules for different dialects.
-
-        Args:
-            field: Django field to analyze
-            dialect: ERD dialect for formatting requirements
-
-        Returns:
-            Dictionary with 'data_type' and 'args' keys, or None if type cannot be determined
-        """
-        # Check if it's a GIS field first
-        field_class_name = field.__class__.__name__
-        if is_gis_field(field_class_name):
-            gis_type = get_gis_field_type(field_class_name, dialect)
-            if gis_type:
-                return {
-                    "data_type": gis_type,
-                    "args": None,
-                }
-
-        # Handle regular fields
-        pattern = r"(\w+)\(([^)]+)\)"
-        data_type = field.cast_db_type(connection)
-        if data_type:
-            # Normalize varchar to text for consistency
-            if data_type.startswith("varchar"):
-                logger.warning("converting varchar to text: %s", data_type)
-                data_type = "text"
-            matches = re.findall(pattern, data_type)
-            args = None
-            if matches:
-                data_type, args = matches[0]
-            if dialect is Dialect.MERMAID:
-                # NOTE: MermaidJS erDiagram does not currently support spaces in either
-                # the field name or the data type. It incorrectly attempts to parse
-                # it as a comment. More information:
-                # https://github.com/mermaid-js/mermaid/issues/1546
-                data_type = data_type.replace(" ", "_")
-            return {
-                "data_type": data_type.lower(),
-                "args": args,
-            }
-        return None
 
     @property
     def col_name(self) -> str:
@@ -179,7 +178,7 @@ class FieldDefinition(BaseDefinition):
         Args:
             field: Django field to extract data type from
         """
-        self._data_type = self.get_data_type(field, self.dialect)
+        self._data_type = extract_data_type(field, self.dialect)
 
     @property
     def primary_key(self) -> bool:

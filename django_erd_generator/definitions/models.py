@@ -7,6 +7,7 @@ fields, and relationships to generate structured representations suitable for
 different diagramming tools.
 """
 
+import logging
 from typing import Union
 
 import django.apps
@@ -19,8 +20,13 @@ from django_erd_generator.contrib.dialects import (
 )
 from django_erd_generator.definitions import DEFAULT_DIALECT
 from django_erd_generator.definitions.base import BaseArray, BaseDefinition
-from django_erd_generator.definitions.fields import FieldDefinition
+from django_erd_generator.definitions.fields import (
+    FieldDefinition,
+    extract_relationship,
+)
 from django_erd_generator.definitions.relationships import Relationship
+
+logger = logging.getLogger(__name__)
 
 
 class ModelDefinition(BaseDefinition):
@@ -113,7 +119,7 @@ class ModelDefinition(BaseDefinition):
         """
         valid_relationships = BaseArray(dialect=self.dialect)
         for field in django_model._meta.get_fields():
-            relationship = FieldDefinition.get_relationship(field, dialect=self.dialect)
+            relationship = extract_relationship(field, dialect=self.dialect)
             if relationship and relationship.rel != "one_to_many":
                 # NOTE: one_to_many and many_to_one are duplicated, so we only take one
                 # of these values.
