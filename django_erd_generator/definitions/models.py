@@ -24,7 +24,6 @@ from django_erd_generator.definitions.fields import (
     FieldDefinition,
     extract_relationship,
 )
-from django_erd_generator.definitions.relationships import Relationship
 
 logger = logging.getLogger(__name__)
 

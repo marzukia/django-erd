@@ -2,6 +2,7 @@
 Test cases for GIS field support in ERD generation.
 """
 
+import contextlib
 import unittest
 from unittest import TestCase
 
@@ -17,10 +18,8 @@ GIS_AVAILABLE = False
 TestGISModel = None
 TestLocationModel = None
 
-try:
+with contextlib.suppress(ImportError):
     from .gis_models import GIS_AVAILABLE, TestGISModel, TestLocationModel
-except ImportError:
-    pass  # GDAL not available, tests will be skipped
 
 
 class GISFieldTestCase(TestCase):

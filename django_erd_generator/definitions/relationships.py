@@ -14,7 +14,7 @@ from django_erd_generator.contrib.dialects import (
     Dialect,
 )
 from django_erd_generator.definitions import DEFAULT_DIALECT
-from django_erd_generator.definitions.base import BaseArray, BaseDefinition
+from django_erd_generator.definitions.base import BaseDefinition
 
 
 def get_pk_attname(model_or_field) -> str:
