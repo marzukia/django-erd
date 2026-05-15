@@ -230,15 +230,3 @@ class FieldDefinition(BaseDefinition):
             String representation using to_string() method
         """
         return self.to_string()
-
-
-class FieldArray(BaseArray):
-    """
-    Collection of FieldDefinition objects.
-
-    A specialized array for managing multiple field definitions with
-    dialect-specific formatting capabilities. Inherits base functionality
-    from BaseArray for consistent string generation across field collections.
-    """
-
-    pass

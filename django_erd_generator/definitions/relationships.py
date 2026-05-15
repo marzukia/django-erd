@@ -119,15 +119,3 @@ class Relationship(BaseDefinition):
             to_model=self.to_model,
             to_field=self.to_field,
         )
-
-
-class RelationshipArray(BaseArray):
-    """
-    Collection of Relationship objects.
-
-    A specialized array for managing multiple relationship definitions with
-    dialect-specific formatting capabilities. Inherits base functionality
-    from BaseArray for consistent string generation across relationship collections.
-    """
-
-    pass

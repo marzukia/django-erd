@@ -18,8 +18,8 @@ from django_erd_generator.contrib.dialects import (
     Dialect,
 )
 from django_erd_generator.definitions.base import BaseArray, BaseDefinition
-from django_erd_generator.definitions.fields import FieldArray, FieldDefinition
-from django_erd_generator.definitions.relationships import RelationshipArray
+from django_erd_generator.definitions.fields import FieldDefinition
+from django_erd_generator.definitions.relationships import Relationship
 
 
 class ModelDefinition(BaseDefinition):
@@ -79,7 +79,7 @@ class ModelDefinition(BaseDefinition):
         Args:
             model: Django model to extract fields from
         """
-        valid_fields = FieldArray(dialect=self.dialect)
+        valid_fields = BaseArray(dialect=self.dialect)
         for field in model._meta.get_fields():
             if field.concrete:
                 definition = FieldDefinition(field, dialect=self.dialect)
@@ -89,12 +89,12 @@ class ModelDefinition(BaseDefinition):
         self._fields = valid_fields
 
     @property
-    def relationships(self) -> RelationshipArray:
+    def relationships(self) -> BaseArray:
         """
         Get the relationship definitions for this model.
 
         Returns:
-            RelationshipArray containing relationship definitions
+            BaseArray containing relationship definitions
         """
         return self._relationships
 
@@ -110,7 +110,7 @@ class ModelDefinition(BaseDefinition):
         Args:
             django_model: Django model to extract relationships from
         """
-        valid_relationships = RelationshipArray(dialect=self.dialect)
+        valid_relationships = BaseArray(dialect=self.dialect)
         for field in django_model._meta.get_fields():
             relationship = FieldDefinition.get_relationship(field, dialect=self.dialect)
             if relationship and relationship.rel != "one_to_many":
@@ -178,7 +178,7 @@ class ModelArray(BaseArray):
         return valid
 
     @property
-    def relationships(self) -> RelationshipArray:
+    def relationships(self) -> BaseArray:
         """
         Get deduplicated relationships across all models.
 
@@ -186,11 +186,11 @@ class ModelArray(BaseArray):
         to ensure each relationship is represented only once in the ERD output.
 
         Returns:
-            RelationshipArray containing unique relationship definitions
+            BaseArray containing unique relationship definitions
         """
         models = [*self]
         valid = []
-        unique = RelationshipArray(dialect=self.dialect)
+        unique = BaseArray(dialect=self.dialect)
         models.sort(key=lambda x: (len(x.relationships), x.name))
         for model in models:
             for relationship in model.relationships:
