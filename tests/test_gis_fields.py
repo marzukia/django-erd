@@ -12,11 +12,15 @@ from django_erd_generator.contrib.gis_fields import (
 )
 from django_erd_generator.definitions.fields import FieldDefinition
 
-# Import test models
+# Import test models - skip if GDAL not available
+GIS_AVAILABLE = False
+TestGISModel = None
+TestLocationModel = None
+
 try:
     from .gis_models import GIS_AVAILABLE, TestGISModel, TestLocationModel
 except ImportError:
-    GIS_AVAILABLE = False
+    pass  # GDAL not available, tests will be skipped
 
 
 class GISFieldTestCase(TestCase):

@@ -2,6 +2,7 @@
 Test models for GIS field support.
 """
 
+from django.core.exceptions import ImproperlyConfigured
 from django.db import models
 
 # Try to import GIS fields, fallback gracefully if not available
@@ -9,7 +10,7 @@ try:
     from django.contrib.gis.db import models as gis_models
 
     GIS_AVAILABLE = True
-except ImportError:
+except (ImportError, ImproperlyConfigured):
     GIS_AVAILABLE = False
 
     # Create dummy classes for testing when GIS is not available
