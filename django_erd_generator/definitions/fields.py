@@ -21,7 +21,7 @@ from django_erd_generator.contrib.gis_fields import (
     is_gis_field,
 )
 from django_erd_generator.definitions import DEFAULT_DIALECT
-from django_erd_generator.definitions.base import BaseArray, BaseDefinition
+from django_erd_generator.definitions.base import BaseDefinition
 from django_erd_generator.definitions.relationships import Relationship
 
 logger = logging.getLogger(__name__)

@@ -2,7 +2,6 @@ from unittest import TestCase
 
 from django_erd_generator.contrib.dialects import Dialect
 from django_erd_generator.definitions.fields import (
-    FieldDefinition,
     extract_relationship,
 )
 from django_erd_generator.definitions.relationships import Relationship
