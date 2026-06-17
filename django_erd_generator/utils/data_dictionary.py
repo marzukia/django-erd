@@ -161,14 +161,14 @@ class DataDictionary:
         doc_string = doc_string.strip()
 
         fields = []
-        for field in model._fields:
+        for field in model.fields:
             meta = field.django_field.__dict__
             related = meta.get("related_model")
             fields.append(
                 {
                     "pk": "✓" if meta.get("primary_key") else "",
-                    "field_name": field._col_name,
-                    "data_type": f"`{field._data_type['data_type'].replace('_', ' ') or ''}`",
+                    "field_name": field.col_name,
+                    "data_type": f"`{field.data_type['data_type'].replace('_', ' ')}`",
                     "related_model": f"[{related.__name__}](#{related.__name__})"
                     if related and hasattr(related, "__name__")
                     else "",
